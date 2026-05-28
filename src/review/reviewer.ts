@@ -29,8 +29,9 @@ export async function reviewFile(filePath: string, workspaceRoot?: string): Prom
     apiKey: config.openrouter_api_key,
   })
 
-  const result = streamText({
-    model: openrouter(config.model),
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const result = await streamText({
+    model: openrouter(config.model) as any,
     system: `You are an expert code reviewer. Analyze the provided code for:
 - Bugs and logic errors
 - Security vulnerabilities
@@ -72,8 +73,9 @@ export async function reviewDiff(ref?: string, workspaceRoot?: string): Promise<
     apiKey: config.openrouter_api_key,
   })
 
-  const result = streamText({
-    model: openrouter(config.model),
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const result = await streamText({
+    model: openrouter(config.model) as any,
     system: `You are an expert code reviewer. Review the provided diff for issues.
 Output format:
 [SEVERITY] file:line — description

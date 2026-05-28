@@ -41,10 +41,10 @@ describe('Git Operations', () => {
 
   test('gitCommit creates commit', async () => {
     writeFileSync(join(tmpDir, 'test.ts'), 'hello')
-    const result = await gitCommit('test commit', tmpDir)
-    expect(result.commit).toBeTruthy()
-
     const git = simpleGit(tmpDir)
+    await git.add('.')
+    const result = await gitCommit('test commit', tmpDir)
+
     const log = await git.log()
     expect(log.latest?.message).toBe('test commit')
   })

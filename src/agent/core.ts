@@ -70,8 +70,9 @@ export class AgentCore {
 
     let fullResponse = ''
 
-    const result = streamText({
-      model,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const result = await streamText({
+      model: model as any,
       system: systemPrompt,
       messages: allMessages,
       tools,
