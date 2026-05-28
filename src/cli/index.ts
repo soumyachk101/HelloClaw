@@ -9,6 +9,7 @@ import { memoryCommand } from '@/cli/commands/memory'
 import { pluginCommand } from '@/cli/commands/plugin'
 import { snapshotCommand } from '@/cli/commands/snapshot'
 import { configCommand } from '@/cli/commands/config'
+import { chatCommand } from '@/cli/commands/chat'
 
 const program = new Command()
 
@@ -33,5 +34,6 @@ program.addCommand(memoryCommand)
 program.addCommand(pluginCommand)
 program.addCommand(snapshotCommand)
 program.addCommand(configCommand)
+program.addCommand(chatCommand)
 
 program.parse()
