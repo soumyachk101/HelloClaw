@@ -1,0 +1,42 @@
+# Dependencies
+node_modules/
+
+# Source code (we ship compiled version)
+src/
+
+# Tests
+tests/
+
+# Development files
+.github/
+.vscode/
+.idea/
+*.log
+npm-debug.log*
+
+# Build artifacts (except dist and bin)
+*.tsbuildinfo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Environment files
+.env
+.env.local
+.env.*.local
+
+# Temporary files
+tmp/
+temp/
+.nexusclaw/
+
+# Documentation (except README)
+docs/
+*.md
+!README.md
+
+# Config files
+tsconfig.json
+bunfig.toml
+.gitignore

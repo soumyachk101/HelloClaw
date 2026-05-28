@@ -3,16 +3,54 @@
   "version": "1.0.0",
   "description": "CLI-first autonomous AI coding agent with remote control",
   "type": "module",
+  "main": "./dist/cli/index.js",
   "bin": {
-    "nexusclaw": "./dist/nexusclaw"
+    "nexusclaw": "./bin/nexusclaw.js"
   },
+  "files": [
+    "dist/**/*",
+    "bin/**/*",
+    "README.md",
+    "LICENSE"
+  ],
   "scripts": {
     "dev": "bun run src/cli/index.ts",
-    "build": "bun build src/cli/index.ts --outfile=dist/nexusclaw --compile",
+    "build": "bun build src/cli/index.ts --outdir=dist/cli --target=node",
+    "build:binary": "bun build src/cli/index.ts --outfile=bin/nexusclaw --compile",
+    "build:all": "bun run build && bun run build:binary",
+    "prepublishOnly": "bun run build:all",
     "test": "bun test",
     "lint": "bunx tsc --noEmit",
     "telegram": "bun run src/remote/telegram/bot.ts",
     "discord": "bun run src/remote/discord/bot.ts"
+  },
+  "keywords": [
+    "ai",
+    "cli",
+    "coding-agent",
+    "autonomous",
+    "openrouter",
+    "vercel-ai-sdk",
+    "typescript",
+    "bun",
+    "telegram-bot",
+    "discord-bot",
+    "code-review",
+    "rag",
+    "lancedb"
+  ],
+  "author": "Soumya Chakraborty",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/soumyachk101/NexusClaw.git"
+  },
+  "bugs": {
+    "url": "https://github.com/soumyachk101/NexusClaw/issues"
+  },
+  "homepage": "https://github.com/soumyachk101/NexusClaw#readme",
+  "engines": {
+    "node": ">=18.0.0"
   },
   "dependencies": {
     "@ai-sdk/openai": "^1.0.0",

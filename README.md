@@ -92,6 +92,20 @@ AI-powered code review with severity levels: CRITICAL, WARNING, INFO. Review fil
 
 </td>
 </tr>
+<tr>
+<td width="50%">
+
+### 💬 Interactive Chat
+Chat mode with persistent conversation history. Switch modes on the fly, review and approve changes inline.
+
+</td>
+<td width="50%">
+
+### 🔧 Extensible
+Plugin system lets you add custom tools. Weather, database, API integrations — anything you can code.
+
+</td>
+</tr>
 </table>
 
 <br>
@@ -484,7 +498,7 @@ graph TB
     subgraph CLI["💻 CLI LAYER"]
         direction TB
         CLI1["index.ts\nCommander.js Root"]
-        CLI2["commands/\n9 command handlers"]
+        CLI2["commands/\n10 command handlers"]
         CLI3["ui/\nbanner, prompts, diff"]
     end
 
@@ -648,7 +662,7 @@ nexusclaw/
 │   ├── 📁 cli/                       # 💻 CLI Interface
 │   │   ├── index.ts                  # Commander.js root
 │   │   ├── 📁 ui/                    # Terminal UI
-│   │   └── 📁 commands/              # 9 commands
+│   │   └── 📁 commands/              # 10 commands (incl. chat)
 │   │
 │   ├── 📁 remote/                    # 🤖 Remote Control
 │   │   ├── 📁 telegram/              # Telegram bot
@@ -802,6 +816,21 @@ bun --version
 
 ### Installation
 
+**Option 1: npm/npx (Recommended)**
+
+```bash
+# Install globally
+npm install -g nexusclaw
+
+# Or run directly with npx (no install needed)
+npx nexusclaw ask "What files are here?"
+
+# Configure your API key
+nexusclaw config set openrouter_api_key sk-or-YOUR_KEY
+```
+
+**Option 2: From Source (Development)**
+
 ```bash
 # Clone repository
 git clone https://github.com/soumyachk101/NexusClaw.git
@@ -820,7 +849,13 @@ bun run dev -- --help
 ### First Commands
 
 ```bash
-# Safe exploration (read-only)
+# If installed via npm/npx:
+nexusclaw ask "What files are in this directory?"
+nexusclaw plan "Add user authentication"
+nexusclaw agent "Create a REST API"
+nexusclaw chat
+
+# If running from source:
 bun run dev ask "What files are in this directory?"
 
 # Generate a plan (no execution)
@@ -851,6 +886,35 @@ bun run dev agent "Refactor database layer" --dry-run   # Preview only
 |:-------|:------------|
 | `-y, --yes` | Auto-approve all changes |
 | `-d, --dry-run` | Show diff without applying |
+
+---
+
+### `nexusclaw chat`
+
+Interactive chat mode with persistent conversation history. Chat with the AI agent in real-time.
+
+```bash
+bun run dev chat                          # Start chat (default: ask mode)
+bun run dev chat -m agent                 # Start in agent mode
+bun run dev chat -m plan                  # Start in plan mode
+bun run dev chat -s "You are a senior dev"  # Custom system prompt
+```
+
+**Chat Commands:**
+```
+/mode <agent|ask|plan|review>   Switch mode on the fly
+/diff                          Show staged changes diff
+/approve                       Approve all staged changes
+/reject                        Reject all staged changes
+/clear                         Clear chat history
+/exit                          Exit chat
+/help                          Show available commands
+```
+
+| Option | Description |
+|:-------|:------------|
+| `-m, --mode <mode>` | Initial mode (default: ask) |
+| `-s, --system <prompt>` | Custom system prompt |
 
 ---
 
@@ -1186,6 +1250,55 @@ Cost: $0.0003
 ```
 
 View usage: `cat .nexusclaw/usage.json`
+
+---
+
+## 🔨 Building & Publishing
+
+### Build Commands
+
+```bash
+# Build for Node.js (npm publish)
+bun run build
+
+# Build standalone binary
+bun run build:binary
+
+# Build both
+bun run build:all
+```
+
+### npm Publishing
+
+```bash
+# 1. Login to npm
+npm login
+
+# 2. Build the project
+bun run build:all
+
+# 3. Publish
+npm publish
+
+# Users can now install with:
+npm install -g nexusclaw
+
+# Or run directly:
+npx nexusclaw ask "Hello!"
+```
+
+### Project Structure (Build)
+
+```
+nexusclaw/
+├── bin/
+│   ├── nexusclaw.js          # npx entry point
+│   └── nexusclaw             # Compiled binary (109MB)
+├── dist/
+│   └── cli/
+│       └── index.js          # Node.js bundle (3MB)
+└── package.json              # npm configuration
+```
 
 ---
 
