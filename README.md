@@ -1,592 +1,505 @@
 <p align="center">
-  <img src="https://img.shields.io/badge/version-1.0.0-blue?style=for-the-badge" alt="Version">
-  <img src="https://img.shields.io/badge/runtime-Bun-orange?style=for-the-badge" alt="Bun">
-  <img src="https://img.shields.io/badge/language-TypeScript-blue?style=for-the-badge" alt="TypeScript">
-  <img src="https://img.shields.io/badge/license-MIT-green?style=for-the-badge" alt="License">
-  <img src="https://img.shields.io/badge/tests-19%20passing-brightgreen?style=for-the-badge" alt="Tests">
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0d1117,50:6e40c9,100:0d1117&height=220&section=header&text=NexusClaw&fontSize=80&fontColor=ffffff&animation=fadeIn&fontAlignY=35&desc=CLI-first%20autonomous%20AI%20coding%20agent&descSize=18&descAlignY=55" width="100%"/>
 </p>
-
-```
-███╗   ██╗███████╗██╗  ██╗██╗   ██╗███████╗ ██████╗██╗      █████╗ ██╗    ██╗
-████╗  ██║██╔════╝╚██╗██╔╝██║   ██║██╔════╝██╔════╝██║     ██╔══██╗██║    ██║
-██╔██╗ ██║█████╗   ╚███╔╝ ██║   ██║███████╗██║     ██║     ███████║██║ █╗ ██║
-██║╚██╗██║██╔══╝   ██╔██╗ ██║   ██║╚════██║██║     ██║     ██╔══██║██║███╗██║
-██║ ╚████║███████╗██╔╝ ██╗╚██████╔╝███████║╚██████╗███████╗██║  ██║╚███╔███╔╝
-╚═╝  ╚═══╝╚══════╝╚═╝  ╚═╝ ╚═════╝ ╚══════╝ ╚═════╝╚══════╝╚═╝  ╚═╝ ╚══╝╚══╝
-```
 
 <p align="center">
-  <strong>CLI-first autonomous AI coding agent with remote control</strong><br>
-  <sub>Built with Bun + TypeScript + Vercel AI SDK</sub>
+  <a href="#"><img src="https://img.shields.io/badge/version-1.0.0-6e40c9?style=for-the-badge&logo=git&logoColor=white" alt="Version"></a>
+  <a href="#"><img src="https://img.shields.io/badge/Bun-f9f1e1?style=for-the-badge&logo=bun&logoColor=black" alt="Bun"></a>
+  <a href="#"><img src="https://img.shields.io/badge/TypeScript-3178c6?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript"></a>
+  <a href="#"><img src="https://img.shields.io/badge/MIT-green?style=for-the-badge" alt="License"></a>
+  <a href="#"><img src="https://img.shields.io/badge/tests-19%20passing-brightgreen?style=for-the-badge" alt="Tests"></a>
 </p>
+
+<p align="center">
+  <img src="https://readme-typing-svg.demolab.com?font=Fira+Code&weight=600&size=22&duration=3000&pause=1000&color=6e40c9&center=true&vCenter=true&multiline=true&repeat=true&width=600&height=80&lines=Autonomous+AI+coding+agent;With+remote+control+via+Telegram+%26+Discord;Powered+by+Vercel+AI+SDK+%2B+OpenRouter" alt="Typing SVG" />
+</p>
+
+<br>
 
 ---
 
-## 🎬 How It Works — Animated Workflow
+## 🎬 How It Works
 
-### The NexusClaw Execution Pipeline
+### Execution Pipeline
 
-```
-  USER INPUT                 PROCESSING                    OUTPUT
-  ──────────                 ──────────                    ──────
+```mermaid
+flowchart TB
+    subgraph Input["📥 INPUT"]
+        A1["🖥️ CLI Command"]
+        A2["📱 Telegram Bot"]
+        A3["💬 Discord Bot"]
+    end
 
-  "Fix the    ──▶  ┌──────────────────┐  ──▶  ┌──────────────────┐
-   auth bug"       │                  │        │                  │
-                   │   CLI PARSER     │        │   AGENT CORE     │
-                   │                  │        │                  │
-                   │  ┌────────────┐  │        │  ┌────────────┐  │
-                   │  │  Commander │  │        │  │  System    │  │
-                   │  │  .js       │  │        │  │  Prompt    │  │
-                   │  └──────┬─────┘  │        │  └──────┬─────┘  │
-                   │         │        │        │         │        │
-                   │  ┌──────▼─────┐  │        │  ┌──────▼─────┐  │
-                   │  │   Mode     │  │        │  │  Memory    │  │
-                   │  │   Router   │  │        │  │  Context   │  │
-                   │  └──────┬─────┘  │        │  └──────┬─────┘  │
-                   └─────────┼────────┘        └─────────┼────────┘
-                             │                           │
-                             ▼                           ▼
-                   ┌──────────────────┐        ┌──────────────────┐
-                   │  MODE SELECTION  │        │  LLM STREAMING   │
-                   │                  │        │  (OpenRouter)    │
-                   │  ┌────────────┐  │        │                  │
-                   │  │ agent: ask │  │        │  ┌────────────┐  │
-                   │  │ : plan :   │  │        │  │  Vercel    │  │
-                   │  │ review     │  │        │  │  AI SDK    │  │
-                   │  └────────────┘  │        │  └──────┬─────┘  │
-                   └──────────────────┘        └─────────┼────────┘
-                                                         │
-                                                         ▼
-                                               ┌──────────────────┐
-                                               │  TOOL EXECUTION  │
-                                               │                  │
-                                               │  ┌────────────┐  │
-                                               │  │ 8 Tools    │  │
-                                               │  │ Available  │  │
-                                               │  └──────┬─────┘  │
-                                               │         │        │
-                                               │  ┌──────▼─────┐  │
-                                               │  │  STAGING   │  │
-                                               │  │  BUFFER    │  │
-                                               │  └──────┬─────┘  │
-                                               │         │        │
-                                               │  ┌──────▼─────┐  │
-                                               │  │  USER      │  │
-                                               │  │  APPROVAL  │  │
-                                               │  └──────┬─────┘  │
-                                               │         │        │
-                                               │  ┌──────▼─────┐  │
-                                               │  │  DISK      │  │
-                                               │  │  WRITE     │  │
-                                               │  └────────────┘  │
-                                               └──────────────────┘
-```
+    subgraph Core["🧠 AGENT CORE"]
+        direction TB
+        B1["Commander.js Parser"] --> B2["Mode Router"]
+        B2 --> B3{"Mode?"}
+        B3 -->|"agent"| B4["Full Tools"]
+        B3 -->|"ask"| B5["Read Only"]
+        B3 -->|"plan"| B6["Plan Only"]
+        B3 -->|"review"| B7["Review Only"]
+        B4 --> B8["System Prompt Builder"]
+        B5 --> B8
+        B6 --> B8
+        B7 --> B8
+        B8 --> B9["Memory Context\n(LanceDB RAG)"]
+        B9 --> B10["Vercel AI SDK\nStream"]
+    end
 
-### Safety-First Staging Flow
+    subgraph Tools["🔧 TOOL SYSTEM"]
+        direction TB
+        C1["read_file"]
+        C2["write_file"]
+        C3["create_file"]
+        C4["delete_file"]
+        C5["run_command"]
+        C6["search_web"]
+        C7["memory_search"]
+        C8["list_directory"]
+    end
 
-```
-  ┌─────────────────────────────────────────────────────────────────┐
-  │                    STAGING BUFFER WORKFLOW                       │
-  │                                                                 │
-  │   LLM Tool Call          Staging Buffer          User Action    │
-  │   ─────────────          ──────────────          ───────────    │
-  │                                                                 │
-  │   write_file()    ──▶   ┌─────────────┐   ──▶   Review diff    │
-  │   create_file()   ──▶   │  STAGED     │   ──▶   ✓ Approve     │
-  │   delete_file()   ──▶   │  (in-memory)│   ──▶   ✗ Reject      │
-  │                         └─────────────┘                         │
-  │                              │                                  │
-  │                              ▼                                  │
-  │                    ┌─────────────────┐                          │
-  │                    │  apply()        │                          │
-  │                    │  writes to disk │                          │
-  │                    │  ONLY approved  │                          │
-  │                    └─────────────────┘                          │
-  │                                                                 │
-  │   ⚠️  NO FILE IS EVER WRITTEN WITHOUT EXPLICIT USER APPROVAL    │
-  └─────────────────────────────────────────────────────────────────┘
-```
+    subgraph Safety["🛡️ SAFETY LAYER"]
+        direction TB
+        D1["Staging Buffer\n(in-memory)"] --> D2{"User\nApproval?"}
+        D2 -->|"✓ Approve"| D3["Write to Disk"]
+        D2 -->|"✗ Reject"| D4["Discard Changes"]
+    end
 
-### Complete Mode Comparison
+    subgraph Output["📤 OUTPUT"]
+        E1["Terminal"]
+        E2["Telegram"]
+        E3["Discord"]
+    end
 
-```
-  ┌─────────────────────────────────────────────────────────────────────┐
-  │                        MODE COMPARISON                               │
-  ├─────────────────┬───────────┬───────────┬───────────┬──────────────┤
-  │   Capability    │   Agent   │    Ask    │   Plan    │   Review     │
-  ├─────────────────┼───────────┼───────────┼───────────┼──────────────┤
-  │ Read files      │    ✓      │    ✓      │    ✓      │    ✓         │
-  │ List directory  │    ✓      │    ✓      │    ✓      │    ✗         │
-  │ Write files     │    ✓*     │    ✗      │    ✗      │    ✗         │
-  │ Create files    │    ✓*     │    ✗      │    ✗      │    ✗         │
-  │ Delete files    │    ✓*     │    ✗      │    ✗      │    ✗         │
-  │ Run commands    │    ✓      │    ✗      │    ✗      │    ✗         │
-  │ Web search      │    ✓      │    ✓      │    ✗      │    ✗         │
-  │ Memory search   │    ✓      │    ✗      │    ✗      │    ✗         │
-  │ Code analysis   │    ✓      │    ✓      │    ✓      │    ✓         │
-  │ Generate plan   │    ✗      │    ✗      │    ✓      │    ✗         │
-  │ Review code     │    ✗      │    ✗      │    ✗      │    ✓         │
-  ├─────────────────┼───────────┼───────────┼───────────┼──────────────┤
-  │ * = staged      │           │           │           │              │
-  │   (requires     │           │           │           │              │
-  │    approval)    │           │           │           │              │
-  └─────────────────┴───────────┴───────────┴───────────┴──────────────┘
+    Input --> Core
+    Core --> Tools
+    Tools --> Safety
+    Safety --> Output
+
+    style Input fill:#1a1b26,stroke:#6e40c9,stroke-width:2px,color:#fff
+    style Core fill:#1a1b26,stroke:#6e40c9,stroke-width:2px,color:#fff
+    style Tools fill:#1a1b26,stroke:#6e40c9,stroke-width:2px,color:#fff
+    style Safety fill:#1a1b26,stroke:#ff6b6b,stroke-width:2px,color:#fff
+    style Output fill:#1a1b26,stroke:#6e40c9,stroke-width:2px,color:#fff
+    style A1 fill:#2d2d3f,stroke:#6e40c9,color:#fff
+    style A2 fill:#2d2d3f,stroke:#6e40c9,color:#fff
+    style A3 fill:#2d2d3f,stroke:#6e40c9,color:#fff
+    style B1 fill:#2d2d3f,stroke:#6e40c9,color:#fff
+    style B2 fill:#2d2d3f,stroke:#6e40c9,color:#fff
+    style B3 fill:#3d3d5c,stroke:#ff6b6b,color:#fff
+    style B4 fill:#2d2d3f,stroke:#4ade80,color:#fff
+    style B5 fill:#2d2d3f,stroke:#facc15,color:#fff
+    style B6 fill:#2d2d3f,stroke:#38bdf8,color:#fff
+    style B7 fill:#2d2d3f,stroke:#f472b6,color:#fff
+    style B8 fill:#2d2d3f,stroke:#6e40c9,color:#fff
+    style B9 fill:#2d2d3f,stroke:#6e40c9,color:#fff
+    style B10 fill:#2d2d3f,stroke:#6e40c9,color:#fff
+    style C1 fill:#2d2d3f,stroke:#4ade80,color:#fff
+    style C2 fill:#2d2d3f,stroke:#facc15,color:#fff
+    style C3 fill:#2d2d3f,stroke:#facc15,color:#fff
+    style C4 fill:#2d2d3f,stroke:#ff6b6b,color:#fff
+    style C5 fill:#2d2d3f,stroke:#f472b6,color:#fff
+    style C6 fill:#2d2d3f,stroke:#38bdf8,color:#fff
+    style C7 fill:#2d2d3f,stroke:#6e40c9,color:#fff
+    style C8 fill:#2d2d3f,stroke:#4ade80,color:#fff
+    style D1 fill:#2d2d3f,stroke:#facc15,color:#fff
+    style D2 fill:#3d3d5c,stroke:#ff6b6b,color:#fff
+    style D3 fill:#2d2d3f,stroke:#4ade80,color:#fff
+    style D4 fill:#2d2d3f,stroke:#ff6b6b,color:#fff
+    style E1 fill:#2d2d3f,stroke:#6e40c9,color:#fff
+    style E2 fill:#2d2d3f,stroke:#38bdf8,color:#fff
+    style E3 fill:#2d2d3f,stroke:#f472b6,color:#fff
 ```
 
-### Tool Execution Flow
+### Staging Safety Flow
 
-```
-  ┌─────────────────────────────────────────────────────────────────────┐
-  │                     TOOL EXECUTION LOOP                              │
-  │                                                                     │
-  │   ┌──────────────┐                                                  │
-  │   │  LLM thinks  │                                                  │
-  │   └──────┬───────┘                                                  │
-  │          │                                                          │
-  │          ▼                                                          │
-  │   ┌──────────────┐     ┌─────────────────────────────────────────┐ │
-  │   │ Tool call?   │─NO─▶│  Return final response                  │ │
-  │   └──────┬───────┘     └─────────────────────────────────────────┘ │
-  │          │ YES                                                      │
-  │          ▼                                                          │
-  │   ┌──────────────────────────────────────────────────────────────┐ │
-  │   │  TOOL DISPATCHER                                             │ │
-  │   │                                                              │ │
-  │   │  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐       │ │
-  │   │  │read_file │ │write_file│ │run_cmd   │ │web_search│       │ │
-  │   │  └──────────┘ └──────────┘ └──────────┘ └──────────┘       │ │
-  │   │  ┌──────────┐ ┌──────────┐ ┌──────────┐ ┌──────────┐       │ │
-  │   │  │create_f  │ │delete_f  │ │list_dir  │ │mem_search│       │ │
-  │   │  └──────────┘ └──────────┘ └──────────┘ └──────────┘       │ │
-  │   └──────────────────────────────────────────────────────────────┘ │
-  │          │                                                          │
-  │          ▼                                                          │
-  │   ┌──────────────┐                                                  │
-  │   │ Return result │                                                  │
-  │   │ to LLM       │                                                  │
-  │   └──────┬───────┘                                                  │
-  │          │                                                          │
-  │          └──────────────────────┐                                   │
-  │                                 ▼                                   │
-  │                          ┌──────────────┐                           │
-  │                          │  LLM thinks  │ (loop back)              │
-  │                          └──────────────┘                           │
-  │                                                                     │
-  │   ⏱️  Max iterations: 20 (configurable)                            │
-  └─────────────────────────────────────────────────────────────────────┘
+```mermaid
+flowchart LR
+    subgraph LLM["🤖 LLM Decides"]
+        A1["write_file()\ncreate_file()\ndelete_file()"]
+    end
+
+    subgraph Buffer["📦 Staging Buffer"]
+        direction TB
+        B1["In-Memory Queue"]
+        B2["Unified Diff\nGenerator"]
+        B3["Approval State\nTracker"]
+    end
+
+    subgraph Review["👁️ User Reviews"]
+        direction TB
+        C1["Colored Diff\nPreview"]
+        C2["✓ Approve\n✗ Reject"]
+    end
+
+    subgraph Disk["💾 Disk Write"]
+        D1["Only Approved\nChanges Applied"]
+    end
+
+    A1 --> B1
+    B1 --> B2
+    B2 --> C1
+    C1 --> C2
+    C2 -->|"approve()"| B3
+    B3 --> D1
+    C2 -->|"reject()"| B1
+
+    style LLM fill:#1a1b26,stroke:#6e40c9,stroke-width:2px,color:#fff
+    style Buffer fill:#1a1b26,stroke:#facc15,stroke-width:2px,color:#fff
+    style Review fill:#1a1b26,stroke:#4ade80,stroke-width:2px,color:#fff
+    style Disk fill:#1a1b26,stroke:#38bdf8,stroke-width:2px,color:#fff
+    style A1 fill:#2d2d3f,stroke:#6e40c9,color:#fff
+    style B1 fill:#2d2d3f,stroke:#facc15,color:#fff
+    style B2 fill:#2d2d3f,stroke:#facc15,color:#fff
+    style B3 fill:#2d2d3f,stroke:#facc15,color:#fff
+    style C1 fill:#2d2d3f,stroke:#4ade80,color:#fff
+    style C2 fill:#3d3d5c,stroke:#4ade80,color:#fff
+    style D1 fill:#2d2d3f,stroke:#38bdf8,color:#fff
 ```
 
-### Memory/RAG System Flow
+### Memory RAG Flow
 
+```mermaid
+flowchart TB
+    subgraph Index["📚 INDEXING (one-time)"]
+        direction LR
+        I1["Walk\nProject\nFiles"] --> I2["Chunk\n500\ntokens"] --> I3["OpenAI\nEmbedding\nAPI"] --> I4["Store in\nLanceDB"]
+    end
+
+    subgraph Query["🔍 QUERY (per-request)"]
+        direction LR
+        Q1["User\nQuestion"] --> Q2["Embed\nQuery"] --> Q3["Vector\nSearch"] --> Q4["Top-K\nResults"]
+    end
+
+    subgraph Inject["💉 INJECTION"]
+        direction LR
+        N1["Memory\nChunks"] --> N2["System\nPrompt"] --> N3["LLM has\nProject\nContext"]
+    end
+
+    Index --> Query
+    Query --> Inject
+
+    style Index fill:#1a1b26,stroke:#6e40c9,stroke-width:2px,color:#fff
+    style Query fill:#1a1b26,stroke:#38bdf8,stroke-width:2px,color:#fff
+    style Inject fill:#1a1b26,stroke:#4ade80,stroke-width:2px,color:#fff
+    style I1 fill:#2d2d3f,stroke:#6e40c9,color:#fff
+    style I2 fill:#2d2d3f,stroke:#6e40c9,color:#fff
+    style I3 fill:#2d2d3f,stroke:#6e40c9,color:#fff
+    style I4 fill:#2d2d3f,stroke:#6e40c9,color:#fff
+    style Q1 fill:#2d2d3f,stroke:#38bdf8,color:#fff
+    style Q2 fill:#2d2d3f,stroke:#38bdf8,color:#fff
+    style Q3 fill:#2d2d3f,stroke:#38bdf8,color:#fff
+    style Q4 fill:#2d2d3f,stroke:#38bdf8,color:#fff
+    style N1 fill:#2d2d3f,stroke:#4ade80,color:#fff
+    style N2 fill:#2d2d3f,stroke:#4ade80,color:#fff
+    style N3 fill:#2d2d3f,stroke:#4ade80,color:#fff
 ```
-  ┌─────────────────────────────────────────────────────────────────────┐
-  │                    MEMORY SYSTEM (RAG)                               │
-  │                                                                     │
-  │  INDEXING (one-time, on "memory init")                              │
-  │  ──────────────────────────────────────                             │
-  │                                                                     │
-  │  ┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐     │
-  │  │  Walk    │───▶│  Chunk   │───▶│  Embed   │───▶│  Store   │     │
-  │  │  Files   │    │  (500    │    │  (OpenAI │    │  (LanceDB│     │
-  │  │          │    │  tokens) │    │  API)    │    │  )       │     │
-  │  └──────────┘    └──────────┘    └──────────┘    └──────────┘     │
-  │                                                                     │
-  │  RETRIEVAL (per-query, automatic)                                   │
-  │  ─────────────────────────────────                                  │
-  │                                                                     │
-  │  ┌──────────┐    ┌──────────┐    ┌──────────┐    ┌──────────┐     │
-  │  │  User    │───▶│  Embed   │───▶│  Vector  │───▶│  Inject  │     │
-  │  │  Query   │    │  Query   │    │  Search  │    │  Context │     │
-  │  └──────────┘    └──────────┘    └──────────┘    └──────────┘     │
-  │                                                                     │
-  │  The agent automatically has context about your project!            │
-  └─────────────────────────────────────────────────────────────────────┘
+
+### Git Automation Flow
+
+```mermaid
+flowchart TB
+    subgraph Commit["📝 AI COMMIT"]
+        direction LR
+        G1["git diff\n--cached"] --> G2["Send to\nLLM"] --> G3["AI generates\nconventional\ncommit message"] --> G4{"User\napprove?"}
+        G4 -->|"Yes"| G5["git commit"]
+        G4 -->|"No"| G6["Cancel"]
+    end
+
+    subgraph PR["🔀 AI PR"]
+        direction LR
+        P1["git diff\n+\ngit log"] --> P2["AI generates\ntitle + body"] --> P3{"User\napprove?"}
+        P3 -->|"Yes"| P4["git push\n+\ngh pr create"]
+        P3 -->|"No"| P5["Cancel"]
+    end
+
+    subgraph Changelog["📋 AI CHANGELOG"]
+        direction LR
+        CL1["git log\n-50"] --> CL2["AI groups\nby type"] --> CL3["CHANGELOG.md"]
+    end
+
+    style Commit fill:#1a1b26,stroke:#6e40c9,stroke-width:2px,color:#fff
+    style PR fill:#1a1b26,stroke:#4ade80,stroke-width:2px,color:#fff
+    style Changelog fill:#1a1b26,stroke:#facc15,stroke-width:2px,color:#fff
+    style G1 fill:#2d2d3f,stroke:#6e40c9,color:#fff
+    style G2 fill:#2d2d3f,stroke:#6e40c9,color:#fff
+    style G3 fill:#2d2d3f,stroke:#6e40c9,color:#fff
+    style G4 fill:#3d3d5c,stroke:#ff6b6b,color:#fff
+    style G5 fill:#2d2d3f,stroke:#4ade80,color:#fff
+    style G6 fill:#2d2d3f,stroke:#ff6b6b,color:#fff
+    style P1 fill:#2d2d3f,stroke:#4ade80,color:#fff
+    style P2 fill:#2d2d3f,stroke:#4ade80,color:#fff
+    style P3 fill:#3d3d5c,stroke:#ff6b6b,color:#fff
+    style P4 fill:#2d2d3f,stroke:#4ade80,color:#fff
+    style P5 fill:#2d2d3f,stroke:#ff6b6b,color:#fff
+    style CL1 fill:#2d2d3f,stroke:#facc15,color:#fff
+    style CL2 fill:#2d2d3f,stroke:#facc15,color:#fff
+    style CL3 fill:#2d2d3f,stroke:#facc15,color:#fff
 ```
 
 ### Remote Control Architecture
 
-```
-  ┌─────────────────────────────────────────────────────────────────────┐
-  │                    REMOTE CONTROL SYSTEM                             │
-  │                                                                     │
-  │  ┌─────────────┐                    ┌─────────────┐                │
-  │  │  📱 Mobile   │                    │  💻 Desktop  │                │
-  │  │  Telegram    │                    │  Discord     │                │
-  │  │  App         │                    │  Client      │                │
-  │  └──────┬──────┘                    └──────┬──────┘                │
-  │         │                                  │                        │
-  │         │  Bot API                   Bot API│                        │
-  │         │                                  │                        │
-  │         ▼                                  ▼                        │
-  │  ┌─────────────┐                    ┌─────────────┐                │
-  │  │  Telegraf   │                    │  discord.js │                │
-  │  │  Bot        │                    │  Bot        │                │
-  │  └──────┬──────┘                    └──────┬──────┘                │
-  │         │                                  │                        │
-  │         └──────────────┬───────────────────┘                        │
-  │                        │                                            │
-  │                        ▼                                            │
-  │              ┌─────────────────┐                                    │
-  │              │  AGENT CORE     │                                    │
-  │              │  (shared)       │                                    │
-  │              └────────┬────────┘                                    │
-  │                       │                                             │
-  │                       ▼                                             │
-  │              ┌─────────────────┐                                    │
-  │              │  Terminal       │                                    │
-  │              │  Output         │                                    │
-  │              └─────────────────┘                                    │
-  │                                                                     │
-  │  Security: TELEGRAM_ALLOWED_USERS=123456,789012                    │
-  └─────────────────────────────────────────────────────────────────────┘
-```
+```mermaid
+flowchart TB
+    subgraph Users["👥 USERS"]
+        direction LR
+        U1["📱 Mobile\nTelegram"]
+        U2["💻 Desktop\nDiscord"]
+    end
 
----
+    subgraph Bots["🤖 BOT LAYER"]
+        direction LR
+        B1["Telegraf\nBot"]
+        B2["discord.js\nBot"]
+    end
 
-## 🏗️ Architecture Deep Dive
+    subgraph Commands["⚡ COMMANDS"]
+        direction TB
+        C1["/ask"]
+        C2["/agent"]
+        C3["/plan"]
+        C4["/review"]
+        C5["/status"]
+    end
 
-### Project Structure
+    subgraph Engine["🧠 NEXUSCLAW ENGINE"]
+        E1["Agent Core"]
+    end
 
-```
-nexusclaw/
-│
-├── package.json                    # Dependencies & npm scripts
-├── tsconfig.json                   # TypeScript strict config
-├── bunfig.toml                     # Bun runtime configuration
-│
-├── src/                            # Source code
-│   ├── config/                     # Configuration layer
-│   │   └── index.ts                # Persistent config via `conf` package
-│   │                               #   Location: ~/.nexusclaw/config.json
-│   │                               #   Manages: API keys, model, settings
-│   │
-│   ├── utils/                      # Shared utilities
-│   │   ├── errors.ts               # ClawError class
-│   │   │                           #   Properties: code, recoverable, context
-│   │   ├── logger.ts               # Chalk-based colored logging
-│   │   │                           #   Methods: info, success, warn, error, debug
-│   │   └── fs.ts                   # File system helpers
-│   │                               #   safePath() prevents directory traversal
-│   │
-│   ├── agent/                      # 🧠 CORE ENGINE (heart of NexusClaw)
-│   │   ├── core.ts                 # AgentCore class
-│   │   │                           #   - run(task, mode) → response
-│   │   │                           #   - Builds system prompts per mode
-│   │   │                           #   - Injects memory context from RAG
-│   │   │                           #   - Streams via Vercel AI SDK
-│   │   │                           #   - Handles tool call loops (max 20)
-│   │   │                           #   - Tracks token usage
-│   │   │
-│   │   ├── staging.ts              # StagingBuffer — THE SAFETY LAYER
-│   │   │                           #   - stage(change) → queue file mutation
-│   │   │                           #   - getDiff() → unified diff preview
-│   │   │                           #   - approve(path?) → mark as approved
-│   │   │                           #   - reject(path?) → mark as rejected
-│   │   │                           #   - apply() → write ONLY approved to disk
-│   │   │                           #   - clear() → discard everything
-│   │   │
-│   │   ├── modes/                  # Mode implementations
-│   │   │   ├── agent.ts            # Full tool access, staged mutations
-│   │   │   ├── ask.ts              # Read-only, no writes allowed
-│   │   │   └── plan.ts             # Planning only, no execution
-│   │   │
-│   │   └── tools/                  # Tool definitions (8 tools)
-│   │       ├── index.ts            # Tool registry
-│   │       ├── fs.ts               # read_file, list_directory, write_file,
-│   │       │                       # create_file, delete_file
-│   │       ├── shell.ts            # run_command (with dangerous command blocklist)
-│   │       ├── web.ts              # search_web via Firecrawl API
-│   │       └── memory.ts           # memory_search (RAG vector lookup)
-│   │
-│   ├── memory/                     # 🧠 RAG SYSTEM (Retrieval Augmented Generation)
-│   │   ├── store.ts                # LanceDB vector store wrapper
-│   │   │                           #   - initMemoryStore() → create/open DB
-│   │   │                           #   - insertEntries() → store chunks
-│   │   │                           #   - searchEntries() → vector similarity search
-│   │   ├── indexer.ts              # File chunking + embedding pipeline
-│   │   │                           #   - Walks project directory
-│   │   │                           #   - Filters by file extension
-│   │   │                           #   - Chunks by 500 tokens with overlap
-│   │   │                           #   - Generates embeddings via OpenAI
-│   │   │                           #   - Stores in LanceDB
-│   │   └── retriever.ts            # Query interface
-│   │                               #   - Embeds user query → vector search → top-K
-│   │
-│   ├── git/                        # 🔀 GIT AUTOMATION
-│   │   ├── operations.ts           # simple-git wrappers
-│   │   │                           #   - gitStatus, gitBranch, gitCommit
-│   │   │                           #   - gitAdd, gitPush, gitDiff, gitLog
-│   │   └── ai.ts                   # AI-powered git workflows
-│   │                               #   - generateCommitMessage() → conventional commits
-│   │                               #   - generatePRDescription() → title + body
-│   │                               #   - generateChangelog() → grouped by type
-│   │
-│   ├── review/                     # 🔍 CODE REVIEW
-│   │   └── reviewer.ts             # File & diff review with severity levels
-│   │                               #   - reviewFile(path) → [CRITICAL] [WARNING] [INFO]
-│   │                               #   - reviewDiff(ref?) → analyze staged/unstaged
-│   │
-│   ├── cli/                        # 💻 CLI INTERFACE
-│   │   ├── index.ts                # Commander.js root — registers all commands
-│   │   │
-│   │   ├── ui/                     # Terminal UI components
-│   │   │   ├── banner.ts           # Figlet ASCII art banner
-│   │   │   ├── prompts.ts          # Clack prompt wrappers
-│   │   │   │                       #   - promptConfirm, promptText, promptSelect
-│   │   │   └── diff.ts             # Colored diff renderer
-│   │   │                           #   - renderDiff() → green/red/cyan output
-│   │   │
-│   │   └── commands/               # Command handlers
-│   │       ├── agent.ts            # nexusclaw agent <task> [--yes] [--dry-run]
-│   │       ├── ask.ts              # nexusclaw ask <query> [--save]
-│   │       ├── plan.ts             # nexusclaw plan <goal>
-│   │       ├── review.ts           # nexusclaw review [file] [--diff]
-│   │       ├── git.ts              # nexusclaw git [commit|pr|changelog|status]
-│   │       ├── memory.ts           # nexusclaw memory [init|search|clear|count]
-│   │       ├── plugin.ts           # nexusclaw plugin [add|remove|list]
-│   │       ├── snapshot.ts         # nexusclaw snapshot [create|load]
-│   │       └── config.ts           # nexusclaw config [show|set|reset]
-│   │
-│   ├── remote/                     # 🤖 REMOTE CONTROL
-│   │   ├── telegram/               # Telegram bot
-│   │   │   ├── bot.ts              # Telegraf client setup
-│   │   │   └── handlers.ts         # /ask, /agent, /plan, /review, /status
-│   │   │
-│   │   └── discord/                # Discord bot
-│   │       ├── bot.ts              # discord.js client setup
-│   │       └── handlers.ts         # Slash commands: /ask, /agent, /plan, etc.
-│   │
-│   ├── plugins/                    # 🔌 PLUGIN SYSTEM
-│   │   ├── types.ts                # NexusClawPlugin interface
-│   │   │                           #   - name, version, description, tools
-│   │   │                           #   - onLoad(), onUnload() lifecycle hooks
-│   │   └── loader.ts               # Dynamic .ts file loader
-│   │                               #   - loadPlugin(path) → import + register
-│   │                               #   - unloadPlugin(name) → cleanup
-│   │
-│   └── tracker/                    # 📊 USAGE TRACKING
-│       └── usage.ts                # Token counting + cost estimation
-│                                   #   - Per-session tracking
-│                                   #   - Model-based pricing tables
-│                                   #   - Saves to .nexusclaw/usage.json
-│
-├── tests/                          # 🧪 TEST SUITE (19 tests, 39 assertions)
-│   ├── staging.test.ts             # 12 tests — StagingBuffer operations
-│   ├── git.test.ts                 # 4 tests — Git operations
-│   ├── agent.test.ts               # 2 tests — ClawError, config shape
-│   └── memory.test.ts              # 1 test — Memory entry shape
-│
-└── plugins/                        # User plugins directory
-    └── example.plugin.ts           # Example plugin template
+    subgraph Output["📤 OUTPUT"]
+        O1["Text Response"]
+        O2["Code Blocks"]
+        O3["Diff Preview"]
+    end
+
+    U1 --> B1
+    U2 --> B2
+    B1 --> Commands
+    B2 --> Commands
+    Commands --> Engine
+    Engine --> Output
+
+    style Users fill:#1a1b26,stroke:#6e40c9,stroke-width:2px,color:#fff
+    style Bots fill:#1a1b26,stroke:#38bdf8,stroke-width:2px,color:#fff
+    style Commands fill:#1a1b26,stroke:#4ade80,stroke-width:2px,color:#fff
+    style Engine fill:#1a1b26,stroke:#ff6b6b,stroke-width:2px,color:#fff
+    style Output fill:#1a1b26,stroke:#facc15,stroke-width:2px,color:#fff
+    style U1 fill:#2d2d3f,stroke:#38bdf8,color:#fff
+    style U2 fill:#2d2d3f,stroke:#5865f2,color:#fff
+    style B1 fill:#2d2d3f,stroke:#38bdf8,color:#fff
+    style B2 fill:#2d2d3f,stroke:#5865f2,color:#fff
+    style C1 fill:#2d2d3f,stroke:#4ade80,color:#fff
+    style C2 fill:#2d2d3f,stroke:#4ade80,color:#fff
+    style C3 fill:#2d2d3f,stroke:#4ade80,color:#fff
+    style C4 fill:#2d2d3f,stroke:#4ade80,color:#fff
+    style C5 fill:#2d2d3f,stroke:#4ade80,color:#fff
+    style E1 fill:#2d2d3f,stroke:#ff6b6b,color:#fff
+    style O1 fill:#2d2d3f,stroke:#facc15,color:#fff
+    style O2 fill:#2d2d3f,stroke:#facc15,color:#fff
+    style O3 fill:#2d2d3f,stroke:#facc15,color:#fff
 ```
 
 ---
 
-## 🚀 Quick Start (Beginner's Guide)
+## 🏗️ Architecture
 
-### Step 1: Install Bun
+```mermaid
+graph TB
+    subgraph CLI["💻 CLI Layer"]
+        direction TB
+        CLI1["index.ts\nCommander.js Root"]
+        CLI2["commands/\nagent, ask, plan,\nreview, git, memory,\nplugin, snapshot, config"]
+        CLI3["ui/\nbanner, prompts, diff"]
+    end
 
-Bun is a fast JavaScript runtime (like Node.js but faster).
+    subgraph Agent["🧠 Agent Layer"]
+        direction TB
+        A1["core.ts\nAgentCore Class"]
+        A2["staging.ts\nStagingBuffer"]
+        A3["modes/\nagent, ask, plan"]
+        A4["tools/\nfs, shell, web, memory"]
+    end
 
-```bash
-# macOS / Linux
-curl -fsSL https://bun.sh/install | bash
+    subgraph Services["⚙️ Services"]
+        direction TB
+        S1["memory/\nstore, indexer, retriever"]
+        S2["git/\noperations, ai"]
+        S3["review/\nreviewer"]
+        S4["plugins/\ntypes, loader"]
+        S5["tracker/\nusage"]
+    end
 
-# Windows (WSL)
-powershell -c "irm bun.sh/install.ps1 | iex"
+    subgraph Remote["🤖 Remote"]
+        direction TB
+        R1["telegram/\nbot, handlers"]
+        R2["discord/\nbot, handlers"]
+    end
 
-# Verify installation
-bun --version
+    subgraph Config["⚙️ Config"]
+        C1["config/index.ts\nconf package"]
+    end
+
+    subgraph Utils["🔧 Utils"]
+        direction LR
+        U1["errors.ts"]
+        U2["logger.ts"]
+        U3["fs.ts"]
+    end
+
+    CLI --> Agent
+    Agent --> Services
+    CLI --> Remote
+    Agent --> Config
+    Agent --> Utils
+    Services --> Config
+    Services --> Utils
+    Remote --> Agent
+
+    style CLI fill:#1a1b26,stroke:#6e40c9,stroke-width:2px,color:#fff
+    style Agent fill:#1a1b26,stroke:#ff6b6b,stroke-width:2px,color:#fff
+    style Services fill:#1a1b26,stroke:#4ade80,stroke-width:2px,color:#fff
+    style Remote fill:#1a1b26,stroke:#38bdf8,stroke-width:2px,color:#fff
+    style Config fill:#1a1b26,stroke:#facc15,stroke-width:2px,color:#fff
+    style Utils fill:#1a1b26,stroke:#f472b6,stroke-width:2px,color:#fff
+    style CLI1 fill:#2d2d3f,stroke:#6e40c9,color:#fff
+    style CLI2 fill:#2d2d3f,stroke:#6e40c9,color:#fff
+    style CLI3 fill:#2d2d3f,stroke:#6e40c9,color:#fff
+    style A1 fill:#2d2d3f,stroke:#ff6b6b,color:#fff
+    style A2 fill:#2d2d3f,stroke:#ff6b6b,color:#fff
+    style A3 fill:#2d2d3f,stroke:#ff6b6b,color:#fff
+    style A4 fill:#2d2d3f,stroke:#ff6b6b,color:#fff
+    style S1 fill:#2d2d3f,stroke:#4ade80,color:#fff
+    style S2 fill:#2d2d3f,stroke:#4ade80,color:#fff
+    style S3 fill:#2d2d3f,stroke:#4ade80,color:#fff
+    style S4 fill:#2d2d3f,stroke:#4ade80,color:#fff
+    style S5 fill:#2d2d3f,stroke:#4ade80,color:#fff
+    style R1 fill:#2d2d3f,stroke:#38bdf8,color:#fff
+    style R2 fill:#2d2d3f,stroke:#38bdf8,color:#fff
+    style C1 fill:#2d2d3f,stroke:#facc15,color:#fff
+    style U1 fill:#2d2d3f,stroke:#f472b6,color:#fff
+    style U2 fill:#2d2d3f,stroke:#f472b6,color:#fff
+    style U3 fill:#2d2d3f,stroke:#f472b6,color:#fff
 ```
 
-### Step 2: Get Your API Key
+---
 
-You need an **OpenRouter API key** (free tier available):
+## 🎯 Mode Comparison
 
-1. Go to [https://openrouter.ai](https://openrouter.ai)
-2. Click "Sign Up" (free)
-3. Go to **Keys** in the sidebar
-4. Click **Create Key**
-5. Copy the key (it starts with `sk-or-...`)
+| Feature | `agent` | `ask` | `plan` | `review` |
+|:--------|:-------:|:-----:|:------:|:--------:|
+| Read files | ✅ | ✅ | ✅ | ✅ |
+| List directory | ✅ | ✅ | ✅ | ❌ |
+| Write files | ⚠️ staged | ❌ | ❌ | ❌ |
+| Create files | ⚠️ staged | ❌ | ❌ | ❌ |
+| Delete files | ⚠️ staged | ❌ | ❌ | ❌ |
+| Run commands | ✅ | ❌ | ❌ | ❌ |
+| Web search | ✅ | ✅ | ❌ | ❌ |
+| Memory search | ✅ | ❌ | ❌ | ❌ |
+| Code analysis | ✅ | ✅ | ✅ | ✅ |
+| Generate plan | ❌ | ❌ | ✅ | ❌ |
+| Review code | ❌ | ❌ | ❌ | ✅ |
 
-### Step 3: Install NexusClaw
+> ⚠️ = staged in buffer, requires user approval before writing to disk
+
+---
+
+## 🚀 Quick Start
+
+### Prerequisites
+
+1. **Bun** — JavaScript runtime
+   ```bash
+   curl -fsSL https://bun.sh/install | bash
+   ```
+
+2. **OpenRouter API key** (free tier)
+   - Sign up at [openrouter.ai](https://openrouter.ai)
+   - Create a key (starts with `sk-or-...`)
+
+### Installation
 
 ```bash
-# Clone the repository
 git clone https://github.com/yourusername/nexusclaw.git
 cd nexusclaw
-
-# Install all dependencies
 bun install
-
-# Set your API key
-bun run dev config set openrouter_api_key sk-or-YOUR_KEY_HERE
-
-# Verify it works
-bun run dev -- --help
+bun run dev config set openrouter_api_key sk-or-YOUR_KEY
 ```
 
-### Step 4: Your First Commands
+### First Commands
 
 ```bash
-# ─── SAFE START: Ask Mode (read-only, no changes made) ───
+# Safe — read only
+bun run dev ask "What files are here?"
 
-# Ask about your project
-bun run dev ask "What files are in this directory?"
+# Plan — no execution
+bun run dev plan "Add authentication"
 
-# Ask about code
-bun run dev ask "Explain what package.json does"
+# Agent — staged changes
+bun run dev agent "Create Express server"
 
-# Save output to a file
-bun run dev ask "List all TypeScript files" --save files.txt
-
-
-# ─── PLAN MODE (generates a plan, no execution) ───
-
-# Generate a plan
-bun run dev plan "Add user authentication with JWT"
-
-# You'll see a step-by-step plan without any changes
-
-
-# ─── AGENT MODE (autonomous, with safety staging) ───
-
-# Run the agent
-bun run dev agent "Create a simple Express server"
-
-# The agent will:
-# 1. Think about the task
-# 2. Create files (staged, NOT written yet)
-# 3. Show you the diff
-# 4. Ask: "Apply these changes? [Y/n]"
-# 5. ONLY write to disk if you approve
-
-
-# ─── REVIEW MODE (code analysis) ───
-
-# Review a file
-bun run dev review package.json
-
-# Review staged changes
-bun run dev review --diff
+# Review — code analysis
+bun run dev review src/index.ts
 ```
 
 ---
 
-## 📖 Command Reference
+## 📖 Commands
 
 ### `nexusclaw agent <task>`
 
-Run the autonomous agent. All file changes are staged and require approval.
-
 ```bash
-bun run dev agent "Create a REST API"
-bun run dev agent "Fix TypeScript errors" --yes         # Auto-approve
-bun run dev agent "Refactor database" --dry-run         # Preview only
+bun run dev agent "Fix the auth bug"           # Interactive approval
+bun run dev agent "Fix the auth bug" --yes      # Auto-approve
+bun run dev agent "Fix the auth bug" --dry-run  # Preview only
 ```
-
-| Option | Description |
-|--------|-------------|
-| `-y, --yes` | Auto-approve all changes |
-| `-d, --dry-run` | Show diff without applying |
-
----
 
 ### `nexusclaw ask <query>`
 
-Read-only Q&A mode. Can read files, cannot write.
-
 ```bash
-bun run dev ask "What does the StagingBuffer do?"
-bun run dev ask "How many files are in src/?" --save answer.txt
+bun run dev ask "How does auth work?"
+bun run dev ask "Explain the code" --save explanation.md
 ```
-
-| Option | Description |
-|--------|-------------|
-| `-s, --save <path>` | Save output to file |
-
----
 
 ### `nexusclaw plan <goal>`
 
-Generate a step-by-step plan. No execution.
-
 ```bash
 bun run dev plan "Add WebSocket support"
-bun run dev plan "Migrate from REST to GraphQL"
 ```
-
----
 
 ### `nexusclaw review [file]`
 
-AI code review with severity levels.
-
 ```bash
-bun run dev review src/index.ts            # Review file
-bun run dev review --diff                  # Review staged changes
-bun run dev review --diff HEAD~1           # Review since ref
+bun run dev review src/auth.ts
+bun run dev review --diff
 ```
 
----
-
-### `nexusclaw git [subcommand]`
-
-Git automation with AI.
+### `nexusclaw git`
 
 ```bash
-bun run dev git status                     # Show status
-bun run dev git commit                     # AI commit message
-bun run dev git commit -m "my message"     # Manual message
-bun run dev git branch feature-name        # Create branch
-bun run dev git pr                         # Push + create PR
-bun run dev git changelog                  # Generate changelog
+bun run dev git status
+bun run dev git commit
+bun run dev git pr
+bun run dev git changelog
 ```
 
----
-
-### `nexusclaw memory [subcommand]`
-
-Manage the RAG memory system.
+### `nexusclaw memory`
 
 ```bash
-bun run dev memory init                    # Index project files
-bun run dev memory search "auth"           # Search memory
-bun run dev memory count                   # Show chunk count
-bun run dev memory clear                   # Clear all data
+bun run dev memory init
+bun run dev memory search "authentication"
+bun run dev memory count
+bun run dev memory clear
 ```
 
----
-
-### `nexusclaw config [subcommand]`
-
-Manage configuration.
+### `nexusclaw config`
 
 ```bash
-bun run dev config show                    # Show all (keys masked)
-bun run dev config set <key> <value>       # Set value
-bun run dev config reset                   # Reset to defaults
+bun run dev config show
+bun run dev config set <key> <value>
+bun run dev config reset
 ```
 
-| Key | Type | Default | Description |
-|-----|------|---------|-------------|
-| `model` | string | `google/gemini-flash-1.5` | LLM model |
-| `openrouter_api_key` | string | — | OpenRouter key (required) |
-| `openai_api_key` | string | — | OpenAI key (for embeddings) |
-| `firecrawl_api_key` | string | — | Firecrawl key (web search) |
-| `telegram_bot_token` | string | — | Telegram bot token |
-| `discord_bot_token` | string | — | Discord bot token |
-| `discord_guild_id` | string | — | Discord server ID |
-| `memory_enabled` | boolean | `true` | Enable RAG memory |
-| `token_tracking` | boolean | `true` | Track usage |
-| `max_agent_iterations` | number | `20` | Max tool loops |
-| `safe_mode` | boolean | `true` | Block dangerous commands |
-
----
-
-### `nexusclaw plugin [subcommand]`
-
-Manage plugins.
+### `nexusclaw plugin`
 
 ```bash
 bun run dev plugin add ./plugins/my-plugin.ts
@@ -594,23 +507,16 @@ bun run dev plugin list
 bun run dev plugin remove my-plugin
 ```
 
----
-
-### `nexusclaw snapshot [subcommand]`
-
-Project snapshots for sharing.
+### `nexusclaw snapshot`
 
 ```bash
-bun run dev snapshot create                 # Create snapshot
-bun run dev snapshot create -o backup.nexus # Custom filename
-bun run dev snapshot load backup.nexus      # View contents
+bun run dev snapshot create
+bun run dev snapshot load backup.nexus
 ```
 
 ---
 
 ## 🔌 Plugin Development
-
-Create custom tools by writing a plugin file:
 
 ```typescript
 // plugins/weather.plugin.ts
@@ -619,12 +525,11 @@ import { z } from 'zod'
 import type { NexusClawPlugin } from '../src/plugins/types'
 
 const weatherTool = tool({
-  description: 'Get current weather for a city',
+  description: 'Get weather for a city',
   parameters: z.object({
-    city: z.string().describe('City name'),
+    city: z.string(),
   }),
   execute: async ({ city }) => {
-    // Your implementation here
     return { city, temp: '22°C', condition: 'Sunny' }
   },
 })
@@ -632,240 +537,109 @@ const weatherTool = tool({
 const plugin: NexusClawPlugin = {
   name: 'weather',
   version: '1.0.0',
-  description: 'Weather lookup tool',
-  tools: {
-    get_weather: weatherTool,
-  },
-  onLoad: async () => {
-    console.log('Weather plugin loaded!')
-  },
-  onUnload: async () => {
-    console.log('Weather plugin unloaded')
-  },
+  description: 'Weather lookup',
+  tools: { get_weather: weatherTool },
 }
 
 export default plugin
 ```
 
-**Load and use:**
-
 ```bash
-# Load the plugin
 bun run dev plugin add ./plugins/weather.plugin.ts
-
-# Now the agent can use it
-bun run dev ask "What's the weather in Tokyo?"
-
-# List loaded plugins
-bun run dev plugin list
-
-# Unload
-bun run dev plugin remove weather
 ```
 
 ---
 
-## 🤖 Remote Control Setup
+## 🤖 Remote Control
 
-### Telegram Bot
+### Telegram
 
-**1. Create a bot:**
+1. Message [@BotFather](https://t.me/BotFather) → `/newbot` → copy token
+2. `bun run dev config set telegram_bot_token YOUR_TOKEN`
+3. `bun run telegram`
+4. Send `/ask`, `/agent`, `/plan`, `/review` to your bot
 
-1. Open Telegram, search for [@BotFather](https://t.me/BotFather)
-2. Send `/newbot`
-3. Follow the prompts (choose a name and username)
-4. Copy the bot token (looks like `123456:ABC-DEF1234ghIkl-zyx57W2v1u123ew11`)
+### Discord
 
-**2. Configure:**
+1. [Developer Portal](https://discord.com/developers/applications) → New App → Bot → copy token
+2. `bun run dev config set discord_bot_token YOUR_TOKEN`
+3. `bun run dev config set discord_guild_id YOUR_SERVER_ID`
+4. `bun run discord`
+5. Use slash commands: `/ask`, `/agent`, `/plan`, `/status`
 
-```bash
-bun run dev config set telegram_bot_token YOUR_BOT_TOKEN
-```
+---
 
-**3. Run the bot:**
+## 🛡️ Security
 
-```bash
-bun run telegram
-```
+```mermaid
+flowchart LR
+    subgraph Blocked["🚫 Blocked Commands"]
+        direction TB
+        B1["rm -rf /"]
+        B2["sudo *"]
+        B3["curl | bash"]
+        B4["chmod 777"]
+    end
 
-**4. Use it (send these commands to your bot):**
+    subgraph Protected["🔒 Protected"]
+        direction TB
+        P1["API keys masked\nin config show"]
+        P2["Path traversal\nprevention"]
+        P3["Staging buffer\nno direct writes"]
+    end
 
-```
-/ask What files are in this project?
-/agent Fix the TypeScript errors
-/plan Add dark mode support
-/review src/index.ts
-/status
-```
+    subgraph Auth["🔐 Access Control"]
+        direction TB
+        A1["TELEGRAM_ALLOWED_USERS"]
+        A2["Discord guild restriction"]
+    end
 
-**5. Optional — Restrict access:**
-
-```bash
-# Only allow specific Telegram user IDs
-export TELEGRAM_ALLOWED_USERS=123456789,987654321
+    style Blocked fill:#1a1b26,stroke:#ff6b6b,stroke-width:2px,color:#fff
+    style Protected fill:#1a1b26,stroke:#4ade80,stroke-width:2px,color:#fff
+    style Auth fill:#1a1b26,stroke:#facc15,stroke-width:2px,color:#fff
+    style B1 fill:#2d2d3f,stroke:#ff6b6b,color:#fff
+    style B2 fill:#2d2d3f,stroke:#ff6b6b,color:#fff
+    style B3 fill:#2d2d3f,stroke:#ff6b6b,color:#fff
+    style B4 fill:#2d2d3f,stroke:#ff6b6b,color:#fff
+    style P1 fill:#2d2d3f,stroke:#4ade80,color:#fff
+    style P2 fill:#2d2d3f,stroke:#4ade80,color:#fff
+    style P3 fill:#2d2d3f,stroke:#4ade80,color:#fff
+    style A1 fill:#2d2d3f,stroke:#facc15,color:#fff
+    style A2 fill:#2d2d3f,stroke:#facc15,color:#fff
 ```
 
 ---
 
-### Discord Bot
+## 📊 Cost Tracking
 
-**1. Create a bot:**
-
-1. Go to [Discord Developer Portal](https://discord.com/developers/applications)
-2. Click "New Application" → name it → "Create"
-3. Go to "Bot" tab → "Add Bot"
-4. Copy the token
-5. Enable "Message Content Intent" under "Privileged Gateway Intents"
-
-**2. Configure:**
-
-```bash
-bun run dev config set discord_bot_token YOUR_BOT_TOKEN
-bun run dev config set discord_guild_id YOUR_SERVER_ID
-```
-
-**3. Run the bot:**
-
-```bash
-bun run discord
-```
-
-**4. Use slash commands in Discord:**
-
-```
-/ask query:How does auth work?
-/agent task:Fix the login bug
-/plan goal:Add WebSocket support
-/status
-```
+| Model | Input / 1M tokens | Output / 1M tokens |
+|:------|------------------:|--------------------:|
+| gemini-flash-1.5 | $0.075 | $0.30 |
+| gemini-pro-1.5 | $1.25 | $5.00 |
+| claude-3.5-sonnet | $3.00 | $15.00 |
+| claude-3-haiku | $0.25 | $1.25 |
+| gpt-4o | $2.50 | $10.00 |
+| gpt-4o-mini | $0.15 | $0.60 |
 
 ---
 
-## 🧪 Testing
-
-```bash
-# Run all tests
-bun test
-
-# Run specific file
-bun test tests/staging.test.ts
-
-# Verbose output
-bun test --verbose
-```
-
-**Test results:**
+## 🧪 Tests
 
 ```
-tests/staging.test.ts   — 12 tests ✓ (StagingBuffer operations)
-tests/git.test.ts       —  4 tests ✓ (Git operations)
-tests/agent.test.ts     —  2 tests ✓ (ClawError, config shape)
-tests/memory.test.ts    —  1 test  ✓ (Memory entry shape)
-
-Total: 19 tests, 39 assertions, 0 failures
-```
-
----
-
-## 🛡️ Security Features
-
-### Command Blocklist
-
-Dangerous commands are automatically blocked:
-
-```
-BLOCKED:
-  rm -rf /
-  sudo anything
-  chmod 777
-  curl ... | bash
-  wget ... | sh
-  mkfs
-  dd if=
-```
-
-### Path Traversal Prevention
-
-All file operations are validated against the workspace root:
-
-```typescript
-// This is blocked:
-safePath('/home/user/project', '../../etc/passwd')
-// Error: Path traversal detected
-```
-
-### API Key Protection
-
-- Stored in `~/.nexusclaw/config.json` (user home, not project)
-- `config show` displays masked: `***x4o2`
-- Never logged or sent to LLM
-
----
-
-## 📊 Token & Cost Tracking
-
-Every session tracks tokens and estimated cost:
-
-```
-Tokens: 1,234 in / 567 out
-Model: google/gemini-flash-1.5
-Cost: $0.0003
-```
-
-**Pricing table:**
-
-| Model | Input (per 1M tokens) | Output (per 1M tokens) |
-|-------|----------------------|------------------------|
-| google/gemini-flash-1.5 | $0.075 | $0.30 |
-| google/gemini-pro-1.5 | $1.25 | $5.00 |
-| anthropic/claude-3.5-sonnet | $3.00 | $15.00 |
-| anthropic/claude-3-haiku | $0.25 | $1.25 |
-| openai/gpt-4o | $2.50 | $10.00 |
-| openai/gpt-4o-mini | $0.15 | $0.60 |
-
-View usage: `cat .nexusclaw/usage.json`
-
----
-
-## 🐛 Troubleshooting
-
-| Error | Solution |
-|-------|----------|
-| `OpenRouter API key not configured` | `bun run dev config set openrouter_api_key sk-or-...` |
-| `Memory store not initialized` | `bun run dev memory init` |
-| `OpenAI API key required for embeddings` | `bun run dev config set openai_api_key sk-...` |
-| TypeScript errors after pulling | `bun install && bun run lint` |
-| Tests failing | `bun install && bun test` |
-
----
-
-## 🤝 Contributing
-
-```bash
-# 1. Fork and clone
-git clone https://github.com/yourusername/nexusclaw.git
-cd nexusclaw
-
-# 2. Create branch
-bun run dev git branch my-feature
-
-# 3. Make changes and test
-bun test
-bun run lint
-
-# 4. Commit and push
-bun run dev git commit
-bun run dev git pr
+✅ staging.test.ts   — 12 tests
+✅ git.test.ts       —  4 tests
+✅ agent.test.ts     —  2 tests
+✅ memory.test.ts    —  1 test
+─────────────────────────────
+   19 tests, 39 assertions, 0 failures
 ```
 
 ---
 
 ## 📄 License
 
-MIT License
-
----
+MIT
 
 <p align="center">
-  <strong>Built with Bun, TypeScript, and Vercel AI SDK</strong>
+  <img src="https://capsule-render.vercel.app/api?type=waving&color=0:0d1117,50:6e40c9,100:0d1117&height=120&section=footer" width="100%"/>
 </p>
