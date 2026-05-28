@@ -804,7 +804,7 @@ bun --version
 
 ```bash
 # Clone repository
-git clone https://github.com/yourusername/nexusclaw.git
+git clone https://github.com/soumyachk101/NexusClaw.git
 cd nexusclaw
 
 # Install dependencies
@@ -1229,7 +1229,7 @@ bun test --verbose
 
 ```bash
 # 1. Fork and clone
-git clone https://github.com/yourusername/nexusclaw.git
+git clone https://github.com/soumyachk101/NexusClaw.git
 cd nexusclaw
 
 # 2. Create feature branch
