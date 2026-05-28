@@ -1,9 +1,8 @@
 import { Command } from 'commander'
-import { intro, outro, spinner } from '@clack/prompts'
+import chalk from 'chalk'
 import { initMemoryStore, clearMemoryStore, getMemoryCount } from '@/memory/store'
 import { indexProject } from '@/memory/indexer'
 import { memoryRetriever } from '@/memory/retriever'
-import { logger } from '@/utils/logger'
 
 export const memoryCommand = new Command('memory')
   .description('Manage project memory')
@@ -12,23 +11,25 @@ memoryCommand
   .command('init')
   .description('Index current project into memory store')
   .action(async () => {
-    intro('NexusClaw — Memory Init')
+    console.log('')
+    console.log(chalk.cyan('  ◆ ') + chalk.white.bold('Memory Init'))
+    console.log(chalk.gray('  │'))
 
-    const s = spinner()
     try {
-      s.start('Initializing memory store...')
+      console.log(chalk.gray('  ├─ ') + chalk.gray('Initializing memory store...'))
       await initMemoryStore()
-      s.stop('Store initialized')
 
-      s.start('Indexing project files...')
+      console.log(chalk.gray('  ├─ ') + chalk.gray('Indexing project files...'))
       const count = await indexProject()
-      s.stop(`Indexed ${count} chunks`)
 
-      outro('✓ Memory ready')
+      console.log(chalk.gray('  │'))
+      console.log(chalk.gray('  └─ ') + chalk.green(`✔ Indexed ${count} chunks`))
+      console.log('')
     } catch (err: unknown) {
-      s.stop('Failed')
       const message = err instanceof Error ? err.message : String(err)
-      logger.error(message)
+      console.log(chalk.gray('  └─ ') + chalk.red('✖ Failed'))
+      console.log(chalk.red(`     ${message}`))
+      console.log('')
       process.exit(1)
     }
   })
@@ -38,19 +39,41 @@ memoryCommand
   .description('Search project memory')
   .option('-k, --top-k <n>', 'Number of results', '5')
   .action(async (query: string, options: { topK?: string }) => {
+    console.log('')
+    console.log(chalk.cyan('  ◆ ') + chalk.white.bold('Memory Search'))
+    console.log(chalk.gray('  │'))
+    console.log(chalk.gray('  ├─ ') + chalk.gray('Query: ') + chalk.white(query))
+    console.log(chalk.gray('  │'))
+
     try {
       await initMemoryStore()
       const results = await memoryRetriever.search(query, parseInt(options.topK ?? '5'))
+
       if (results.length === 0) {
-        logger.info('No results found. Run: nexusclaw memory init')
+        console.log(chalk.gray('  ├─ ') + chalk.yellow('No results found'))
+        console.log(chalk.gray('  └─ ') + chalk.gray('Run: nexusclaw memory init'))
       } else {
-        for (const result of results) {
-          console.log(`\n${result}`)
+        console.log(chalk.gray('  ├─ ') + chalk.gray(`Found ${results.length} results:`))
+        console.log(chalk.gray('  │'))
+
+        for (let i = 0; i < results.length; i++) {
+          const lines = results[i]!.split('\n')
+          console.log(chalk.gray('  ├─ ') + chalk.white.bold(`[${i + 1}]`))
+          for (const line of lines) {
+            console.log(chalk.gray('  │  ') + line)
+          }
+          console.log(chalk.gray('  │'))
         }
+
+        console.log(chalk.gray('  └─ ') + chalk.green('✔ Done'))
       }
+
+      console.log('')
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : String(err)
-      logger.error(message)
+      console.log(chalk.gray('  └─ ') + chalk.red('✖ Failed'))
+      console.log(chalk.red(`     ${message}`))
+      console.log('')
     }
   })
 
@@ -61,10 +84,12 @@ memoryCommand
     try {
       await initMemoryStore()
       await clearMemoryStore()
-      logger.success('Memory cleared')
+      console.log('')
+      console.log(chalk.green('  ✔ ') + chalk.gray('Memory cleared'))
+      console.log('')
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : String(err)
-      logger.error(message)
+      console.log(chalk.red(`  ✖ ${message}`))
     }
   })
 
@@ -75,9 +100,11 @@ memoryCommand
     try {
       await initMemoryStore()
       const count = await getMemoryCount()
-      logger.info(`Memory contains ${count} chunks`)
+      console.log('')
+      console.log(chalk.cyan('  ◆ ') + chalk.gray('Memory contains ') + chalk.white.bold(String(count)) + chalk.gray(' chunks'))
+      console.log('')
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : String(err)
-      logger.error(message)
+      console.log(chalk.red(`  ✖ ${message}`))
     }
   })

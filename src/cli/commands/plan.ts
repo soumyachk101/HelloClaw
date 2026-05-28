@@ -1,26 +1,39 @@
 import { Command } from 'commander'
-import { intro, outro, spinner } from '@clack/prompts'
+import chalk from 'chalk'
 import { runPlanMode } from '@/agent/modes/plan'
-import { logger } from '@/utils/logger'
 
 export const planCommand = new Command('plan')
   .description('Generate a step-by-step plan for a goal')
   .argument('<goal>', 'The high-level goal')
   .action(async (goal: string) => {
-    intro('NexusClaw — Plan Mode')
-
-    const s = spinner()
-    s.start('Generating plan...')
+    console.log('')
+    console.log(chalk.cyan('  ◆ ') + chalk.white.bold('Plan Mode'))
+    console.log(chalk.gray('  │'))
+    console.log(chalk.gray('  ├─ ') + chalk.gray('Goal: ') + chalk.white(goal))
+    console.log(chalk.gray('  │'))
+    console.log(chalk.gray('  ├─ ') + chalk.gray('Generating plan...'))
 
     try {
       const plan = await runPlanMode(goal)
-      s.stop('Plan generated')
-      console.log('\n' + plan)
-      outro('✓ Done')
+
+      console.log(chalk.gray('  │'))
+      console.log(chalk.gray('  ├─ ') + chalk.gray('Plan:'))
+      console.log(chalk.gray('  │'))
+
+      // Print plan with proper indentation
+      const lines = plan.split('\n')
+      for (const line of lines) {
+        console.log(chalk.gray('  │  ') + line)
+      }
+
+      console.log(chalk.gray('  │'))
+      console.log(chalk.gray('  └─ ') + chalk.green('✔ Plan generated'))
+      console.log('')
     } catch (err: unknown) {
-      s.stop('Failed')
       const message = err instanceof Error ? err.message : String(err)
-      logger.error(message)
+      console.log(chalk.gray('  └─ ') + chalk.red('✖ Failed'))
+      console.log(chalk.red(`     ${message}`))
+      console.log('')
       process.exit(1)
     }
   })

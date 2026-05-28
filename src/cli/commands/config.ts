@@ -1,6 +1,6 @@
 import { Command } from 'commander'
+import chalk from 'chalk'
 import { getConfig, setConfig, resetConfig, getConfigPath } from '@/config'
-import { logger } from '@/utils/logger'
 import type { NexusClawConfig } from '@/config'
 
 export const configCommand = new Command('config')
@@ -11,17 +11,34 @@ configCommand
   .description('Show current configuration')
   .action(() => {
     const config = getConfig()
+
+    console.log('')
+    console.log(chalk.cyan('  ◆ ') + chalk.white.bold('Configuration'))
+    console.log(chalk.gray('  │'))
+
     // Mask API keys
-    const masked: Record<string, unknown> = {}
-    for (const [key, value] of Object.entries(config)) {
-      if (typeof value === 'string' && key.includes('key') || key.includes('token')) {
-        masked[key] = value ? '***' + value.slice(-4) : '(not set)'
+    const entries: Array<[string, unknown]> = Object.entries(config)
+    const maxKeyLen = Math.max(...entries.map(([k]) => k.length))
+
+    for (const [key, value] of entries) {
+      let displayValue: string
+
+      if ((key.includes('key') || key.includes('token')) && typeof value === 'string' && value) {
+        displayValue = chalk.yellow('***' + value.slice(-4))
+      } else if (typeof value === 'boolean') {
+        displayValue = value ? chalk.green('true') : chalk.red('false')
+      } else if (Array.isArray(value)) {
+        displayValue = value.length > 0 ? chalk.white(value.join(', ')) : chalk.gray('(empty)')
       } else {
-        masked[key] = value
+        displayValue = chalk.white(String(value || '(not set)'))
       }
+
+      console.log(chalk.gray('  ├─ ') + chalk.gray(key.padEnd(maxKeyLen)) + '  ' + displayValue)
     }
-    console.log(JSON.stringify(masked, null, 2))
-    console.log(`\nConfig path: ${getConfigPath()}`)
+
+    console.log(chalk.gray('  │'))
+    console.log(chalk.gray('  └─ ') + chalk.gray('Path: ') + chalk.white(getConfigPath()))
+    console.log('')
   })
 
 configCommand
@@ -35,7 +52,8 @@ configCommand
     ]
 
     if (!validKeys.includes(key as keyof NexusClawConfig)) {
-      logger.error(`Invalid key: ${key}. Valid keys: ${validKeys.join(', ')}`)
+      console.log(chalk.red(`  ✖ Invalid key: ${key}`))
+      console.log(chalk.gray(`    Valid keys: ${validKeys.join(', ')}`))
       process.exit(1)
     }
 
@@ -46,7 +64,11 @@ configCommand
     else if (!isNaN(Number(value))) parsed = Number(value)
 
     setConfig({ [key]: parsed } as Partial<NexusClawConfig>)
-    logger.success(`Set ${key} = ${key.includes('key') || key.includes('token') ? '***' : parsed}`)
+
+    const displayValue = key.includes('key') || key.includes('token') ? '***' : parsed
+    console.log('')
+    console.log(chalk.green('  ✔ ') + chalk.gray('Set ') + chalk.white(key) + chalk.gray(' = ') + chalk.yellow(String(displayValue)))
+    console.log('')
   })
 
 configCommand
@@ -54,5 +76,7 @@ configCommand
   .description('Reset configuration to defaults')
   .action(async () => {
     resetConfig()
-    logger.success('Configuration reset to defaults')
+    console.log('')
+    console.log(chalk.green('  ✔ ') + chalk.gray('Configuration reset to defaults'))
+    console.log('')
   })

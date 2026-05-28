@@ -1,8 +1,7 @@
 import { Command } from 'commander'
+import chalk from 'chalk'
 import { readFile, readdir, writeFile } from 'fs/promises'
 import { resolve, relative } from 'path'
-import { existsSync, mkdirSync } from 'fs'
-import { logger } from '@/utils/logger'
 
 const IGNORED = new Set(['.git', 'node_modules', 'dist', '.nexusclaw', '.DS_Store'])
 
@@ -14,6 +13,11 @@ snapshotCommand
   .description('Create a compressed snapshot of the current project')
   .option('-o, --output <path>', 'Output file path', 'project.nexus')
   .action(async (options: { output: string }) => {
+    console.log('')
+    console.log(chalk.cyan('  ◆ ') + chalk.white.bold('Create Snapshot'))
+    console.log(chalk.gray('  │'))
+    console.log(chalk.gray('  ├─ ') + chalk.gray('Scanning project...'))
+
     try {
       const root = process.cwd()
       const files: Record<string, string> = {}
@@ -45,10 +49,16 @@ snapshotCommand
       }
 
       await writeFile(options.output, JSON.stringify(snapshot, null, 2))
-      logger.success(`Snapshot created: ${options.output} (${Object.keys(files).length} files)`)
+
+      console.log(chalk.gray('  ├─ ') + chalk.gray('Files: ') + chalk.white(String(Object.keys(files).length)))
+      console.log(chalk.gray('  ├─ ') + chalk.gray('Output: ') + chalk.white(options.output))
+      console.log(chalk.gray('  └─ ') + chalk.green('✔ Snapshot created'))
+      console.log('')
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : String(err)
-      logger.error(message)
+      console.log(chalk.gray('  └─ ') + chalk.red('✖ Failed'))
+      console.log(chalk.red(`     ${message}`))
+      console.log('')
     }
   })
 
@@ -56,18 +66,33 @@ snapshotCommand
   .command('load <path>')
   .description('Load a snapshot and show its contents')
   .action(async (snapshotPath: string) => {
+    console.log('')
+    console.log(chalk.cyan('  ◆ ') + chalk.white.bold('Load Snapshot'))
+    console.log(chalk.gray('  │'))
+
     try {
       const content = await readFile(snapshotPath, 'utf-8')
       const snapshot = JSON.parse(content) as { created_at: string; files: Record<string, string> }
 
-      console.log(`Snapshot created: ${snapshot.created_at}`)
-      console.log(`Files: ${Object.keys(snapshot.files).length}`)
-      console.log('\nFile list:')
-      for (const path of Object.keys(snapshot.files).sort()) {
-        console.log(`  ${path}`)
+      console.log(chalk.gray('  ├─ ') + chalk.gray('Created: ') + chalk.white(snapshot.created_at))
+      console.log(chalk.gray('  ├─ ') + chalk.gray('Files: ') + chalk.white(String(Object.keys(snapshot.files).length)))
+      console.log(chalk.gray('  │'))
+      console.log(chalk.gray('  ├─ ') + chalk.gray('Contents:'))
+      console.log(chalk.gray('  │'))
+
+      const filePaths = Object.keys(snapshot.files).sort()
+      for (let i = 0; i < filePaths.length; i++) {
+        const path = filePaths[i]!
+        const isLast = i === filePaths.length - 1
+        const prefix = isLast ? '  └─ ' : '  ├─ '
+        console.log(chalk.gray(prefix) + chalk.white(path))
       }
+
+      console.log('')
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : String(err)
-      logger.error(message)
+      console.log(chalk.gray('  └─ ') + chalk.red('✖ Failed'))
+      console.log(chalk.red(`     ${message}`))
+      console.log('')
     }
   })

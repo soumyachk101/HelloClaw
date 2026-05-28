@@ -1,10 +1,9 @@
 import { Command } from 'commander'
-import { intro, outro, spinner } from '@clack/prompts'
+import chalk from 'chalk'
 import { generateCommitMessage, generatePRDescription, generateChangelog } from '@/git/ai'
-import { gitCommit, gitBranch, gitPush, gitStatus, gitAdd, gitDiff } from '@/git/operations'
+import { gitCommit, gitBranch, gitPush, gitStatus, gitDiff } from '@/git/operations'
 import { renderDiff } from '@/cli/ui/diff'
 import { promptConfirm } from '@/cli/ui/prompts'
-import { logger } from '@/utils/logger'
 
 export const gitCommand = new Command('git')
   .description('Git workflow automation')
@@ -14,39 +13,50 @@ gitCommand
   .description('AI-generated commit message from staged diff')
   .option('-m, --message <msg>', 'Use provided message instead of AI')
   .action(async (options: { message?: string }) => {
-    intro('NexusClaw — Git Commit')
+    console.log('')
+    console.log(chalk.cyan('  ◆ ') + chalk.white.bold('Git Commit'))
+    console.log(chalk.gray('  │'))
 
-    const s = spinner()
     try {
       const diff = await gitDiff(true)
       if (!diff.trim()) {
-        logger.warn('No staged changes. Stage files first with: git add .')
+        console.log(chalk.gray('  ├─ ') + chalk.yellow('No staged changes'))
+        console.log(chalk.gray('  └─ ') + chalk.gray('Stage files first with: git add .'))
+        console.log('')
         process.exit(0)
       }
+
+      console.log(chalk.gray('  ├─ ') + chalk.gray('Staged changes found'))
+      console.log(chalk.gray('  │'))
 
       let message: string
       if (options.message) {
         message = options.message
       } else {
-        s.start('Generating commit message...')
+        console.log(chalk.gray('  ├─ ') + chalk.gray('Generating commit message...'))
         message = await generateCommitMessage()
-        s.stop('Message generated')
-        console.log(`\nProposed message:\n${message}\n`)
+        console.log(chalk.gray('  │'))
       }
+
+      console.log(chalk.gray('  ├─ ') + chalk.gray('Proposed message:'))
+      console.log(chalk.gray('  │'))
+      console.log(chalk.gray('  │  ') + chalk.white.bold(message))
+      console.log(chalk.gray('  │'))
 
       const approved = await promptConfirm('Use this commit message?')
       if (approved) {
         await gitCommit(message)
-        logger.success('Committed')
+        console.log(chalk.gray('  └─ ') + chalk.green('✔ Committed'))
       } else {
-        logger.warn('Commit cancelled')
+        console.log(chalk.gray('  └─ ') + chalk.yellow('Cancelled'))
       }
 
-      outro('✓ Done')
+      console.log('')
     } catch (err: unknown) {
-      s.stop('Failed')
       const message = err instanceof Error ? err.message : String(err)
-      logger.error(message)
+      console.log(chalk.gray('  └─ ') + chalk.red('✖ Failed'))
+      console.log(chalk.red(`     ${message}`))
+      console.log('')
       process.exit(1)
     }
   })
@@ -57,10 +67,12 @@ gitCommand
   .action(async (name: string) => {
     try {
       const branchName = await gitBranch(name)
-      logger.success(`Switched to branch: ${branchName}`)
+      console.log('')
+      console.log(chalk.green('  ✔ ') + chalk.gray('Created branch: ') + chalk.white.bold(branchName))
+      console.log('')
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : String(err)
-      logger.error(message)
+      console.log(chalk.red(`  ✖ ${message}`))
       process.exit(1)
     }
   })
@@ -69,23 +81,34 @@ gitCommand
   .command('pr')
   .description('Push and create a GitHub PR with AI-generated description')
   .action(async () => {
-    intro('NexusClaw — Git PR')
+    console.log('')
+    console.log(chalk.cyan('  ◆ ') + chalk.white.bold('Git PR'))
+    console.log(chalk.gray('  │'))
 
-    const s = spinner()
     try {
-      s.start('Generating PR description...')
+      console.log(chalk.gray('  ├─ ') + chalk.gray('Generating PR description...'))
       const { title, body } = await generatePRDescription()
-      s.stop('PR description generated')
 
-      console.log(`\nTitle: ${title}\n\n${body}\n`)
+      console.log(chalk.gray('  │'))
+      console.log(chalk.gray('  ├─ ') + chalk.gray('Title: ') + chalk.white.bold(title))
+      console.log(chalk.gray('  ├─ ') + chalk.gray('Body:'))
+      console.log(chalk.gray('  │'))
 
+      const bodyLines = body.split('\n')
+      for (const line of bodyLines.slice(0, 10)) {
+        console.log(chalk.gray('  │  ') + line)
+      }
+      if (bodyLines.length > 10) {
+        console.log(chalk.gray('  │  ') + chalk.gray(`... (${bodyLines.length - 10} more lines)`))
+      }
+
+      console.log(chalk.gray('  │'))
       const approved = await promptConfirm('Push and create PR?')
       if (approved) {
-        s.start('Pushing...')
+        console.log(chalk.gray('  ├─ ') + chalk.gray('Pushing...'))
         await gitPush()
-        s.stop('Pushed')
 
-        // Create PR via gh CLI
+        console.log(chalk.gray('  ├─ ') + chalk.gray('Creating PR...'))
         const proc = Bun.spawn([
           'gh', 'pr', 'create',
           '--title', title,
@@ -96,20 +119,22 @@ gitCommand
         const exitCode = await proc.exited
 
         if (exitCode === 0) {
-          logger.success(`PR created: ${stdout.trim()}`)
+          console.log(chalk.gray('  └─ ') + chalk.green('✔ PR created: ') + chalk.white(stdout.trim()))
         } else {
           const stderr = await new Response(proc.stderr).text()
-          logger.error(`gh pr create failed: ${stderr}`)
+          console.log(chalk.gray('  └─ ') + chalk.red('✖ gh pr create failed'))
+          console.log(chalk.red(`     ${stderr}`))
         }
       } else {
-        logger.warn('PR cancelled')
+        console.log(chalk.gray('  └─ ') + chalk.yellow('Cancelled'))
       }
 
-      outro('✓ Done')
+      console.log('')
     } catch (err: unknown) {
-      s.stop('Failed')
       const message = err instanceof Error ? err.message : String(err)
-      logger.error(message)
+      console.log(chalk.gray('  └─ ') + chalk.red('✖ Failed'))
+      console.log(chalk.red(`     ${message}`))
+      console.log('')
       process.exit(1)
     }
   })
@@ -118,17 +143,31 @@ gitCommand
   .command('changelog')
   .description('Generate CHANGELOG from recent commits')
   .action(async () => {
-    const s = spinner()
-    s.start('Generating changelog...')
+    console.log('')
+    console.log(chalk.cyan('  ◆ ') + chalk.white.bold('Git Changelog'))
+    console.log(chalk.gray('  │'))
+    console.log(chalk.gray('  ├─ ') + chalk.gray('Generating changelog...'))
 
     try {
       const changelog = await generateChangelog()
-      s.stop('Done')
-      console.log('\n' + changelog)
+
+      console.log(chalk.gray('  │'))
+      console.log(chalk.gray('  ├─ ') + chalk.gray('Changelog:'))
+      console.log(chalk.gray('  │'))
+
+      const lines = changelog.split('\n')
+      for (const line of lines) {
+        console.log(chalk.gray('  │  ') + line)
+      }
+
+      console.log(chalk.gray('  │'))
+      console.log(chalk.gray('  └─ ') + chalk.green('✔ Done'))
+      console.log('')
     } catch (err: unknown) {
-      s.stop('Failed')
       const message = err instanceof Error ? err.message : String(err)
-      logger.error(message)
+      console.log(chalk.gray('  └─ ') + chalk.red('✖ Failed'))
+      console.log(chalk.red(`     ${message}`))
+      console.log('')
       process.exit(1)
     }
   })
@@ -139,12 +178,18 @@ gitCommand
   .action(async () => {
     try {
       const status = await gitStatus()
-      console.log('Branch:', status.current)
-      console.log('Modified:', status.modified.length)
-      console.log('Staged:', status.staged.length)
-      console.log('Untracked:', status.not_added.length)
+
+      console.log('')
+      console.log(chalk.cyan('  ◆ ') + chalk.white.bold('Git Status'))
+      console.log(chalk.gray('  │'))
+      console.log(chalk.gray('  ├─ ') + chalk.gray('Branch: ') + chalk.white.bold(status.current ?? 'detached'))
+      console.log(chalk.gray('  ├─ ') + chalk.gray('Modified: ') + (status.modified.length > 0 ? chalk.yellow(String(status.modified.length)) : chalk.green('0')))
+      console.log(chalk.gray('  ├─ ') + chalk.gray('Staged: ') + (status.staged.length > 0 ? chalk.green(String(status.staged.length)) : chalk.gray('0')))
+      console.log(chalk.gray('  ├─ ') + chalk.gray('Untracked: ') + (status.not_added.length > 0 ? chalk.yellow(String(status.not_added.length)) : chalk.gray('0')))
+      console.log(chalk.gray('  └─ ') + chalk.gray('Deleted: ') + (status.deleted.length > 0 ? chalk.red(String(status.deleted.length)) : chalk.gray('0')))
+      console.log('')
     } catch (err: unknown) {
       const message = err instanceof Error ? err.message : String(err)
-      logger.error(message)
+      console.log(chalk.red(`  ✖ ${message}`))
     }
   })

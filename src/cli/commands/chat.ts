@@ -4,9 +4,7 @@ import chalk from 'chalk'
 import { AgentCore, type AgentMode } from '@/agent/core'
 import { StagingBuffer } from '@/agent/staging'
 import { renderDiff, renderStagedChanges } from '@/cli/ui/diff'
-import { promptConfirm } from '@/cli/ui/prompts'
 import { getConfig } from '@/config'
-import { logger } from '@/utils/logger'
 import type { CoreMessage } from 'ai'
 
 export const chatCommand = new Command('chat')
@@ -25,25 +23,28 @@ export const chatCommand = new Command('chat')
 
     const prompt = (): Promise<string> => {
       return new Promise((resolve) => {
-        rl.question(chalk.cyan('\nYou: '), resolve)
+        rl.question(chalk.cyan('  You: '), resolve)
       })
     }
 
     // Welcome banner
-    console.log(chalk.cyan('\n╔══════════════════════════════════════════════════════════════╗'))
-    console.log(chalk.cyan('║') + chalk.white.bold('                    NexusClaw Chat Mode                       ') + chalk.cyan('║'))
-    console.log(chalk.cyan('╠══════════════════════════════════════════════════════════════╣'))
-    console.log(chalk.cyan('║') + chalk.gray('  Type your message and press Enter to chat                  ') + chalk.cyan('║'))
-    console.log(chalk.cyan('║') + chalk.gray('  Commands:                                                   ') + chalk.cyan('║'))
-    console.log(chalk.cyan('║') + chalk.yellow('    /mode <agent|ask|plan|review>') + chalk.gray('  - Switch mode            ') + chalk.cyan('║'))
-    console.log(chalk.cyan('║') + chalk.yellow('    /diff') + chalk.gray('                          - Show staged diff         ') + chalk.cyan('║'))
-    console.log(chalk.cyan('║') + chalk.yellow('    /approve') + chalk.gray('                        - Approve staged changes   ') + chalk.cyan('║'))
-    console.log(chalk.cyan('║') + chalk.yellow('    /reject') + chalk.gray('                         - Reject staged changes    ') + chalk.cyan('║'))
-    console.log(chalk.cyan('║') + chalk.yellow('    /clear') + chalk.gray('                          - Clear chat history       ') + chalk.cyan('║'))
-    console.log(chalk.cyan('║') + chalk.yellow('    /exit') + chalk.gray('                           - Exit chat                ') + chalk.cyan('║'))
-    console.log(chalk.cyan('╚══════════════════════════════════════════════════════════════╝'))
-    console.log(chalk.gray(`\n  Mode: ${chalk.white.bold(mode)} | Model: ${chalk.white.bold(getConfig().model)}`))
-    console.log(chalk.gray('  Type /exit to quit\n'))
+    console.log('')
+    console.log(chalk.cyan('  ╭─────────────────────────────────────────────────────────────╮'))
+    console.log(chalk.cyan('  │') + chalk.white.bold('                     NexusClaw Chat Mode                       ') + chalk.cyan('│'))
+    console.log(chalk.cyan('  ├─────────────────────────────────────────────────────────────┤'))
+    console.log(chalk.cyan('  │') + chalk.gray('  Type your message and press Enter to chat                  ') + chalk.cyan('│'))
+    console.log(chalk.cyan('  │') + chalk.gray('  Commands:                                                   ') + chalk.cyan('│'))
+    console.log(chalk.cyan('  │') + chalk.yellow('    /mode <agent|ask|plan|review>') + chalk.gray('  - Switch mode            ') + chalk.cyan('│'))
+    console.log(chalk.cyan('  │') + chalk.yellow('    /diff') + chalk.gray('                          - Show staged diff         ') + chalk.cyan('│'))
+    console.log(chalk.cyan('  │') + chalk.yellow('    /approve') + chalk.gray('                        - Approve staged changes   ') + chalk.cyan('│'))
+    console.log(chalk.cyan('  │') + chalk.yellow('    /reject') + chalk.gray('                         - Reject staged changes    ') + chalk.cyan('│'))
+    console.log(chalk.cyan('  │') + chalk.yellow('    /clear') + chalk.gray('                          - Clear chat history       ') + chalk.cyan('│'))
+    console.log(chalk.cyan('  │') + chalk.yellow('    /exit') + chalk.gray('                           - Exit chat                ') + chalk.cyan('│'))
+    console.log(chalk.cyan('  ╰─────────────────────────────────────────────────────────────╯'))
+    console.log('')
+    console.log(chalk.gray('  Mode: ') + chalk.white.bold(mode) + chalk.gray('  │  Model: ') + chalk.white.bold(getConfig().model))
+    console.log(chalk.gray('  Type /exit to quit'))
+    console.log('')
 
     let currentMode: AgentMode = mode
     let stagingBuffer: StagingBuffer | null = null
@@ -61,7 +62,9 @@ export const chatCommand = new Command('chat')
           switch (command) {
             case '/exit':
             case '/quit':
-              console.log(chalk.yellow('\nGoodbye! 👋\n'))
+              console.log('')
+              console.log(chalk.cyan('  ◆ ') + chalk.gray('Goodbye!'))
+              console.log('')
               rl.close()
               process.exit(0)
 
@@ -69,20 +72,18 @@ export const chatCommand = new Command('chat')
               const newMode = args[0] as AgentMode
               if (['agent', 'ask', 'plan', 'review'].includes(newMode)) {
                 currentMode = newMode
-                console.log(chalk.green(`✓ Mode switched to: ${currentMode}`))
+                console.log(chalk.green(`  ✔ Mode switched to: ${currentMode}`))
               } else {
-                console.log(chalk.red('Invalid mode. Use: agent, ask, plan, review'))
+                console.log(chalk.red('  ✖ Invalid mode. Use: agent, ask, plan, review'))
               }
               continue
 
             case '/diff':
               if (stagingBuffer && stagingBuffer.size > 0) {
-                console.log(chalk.yellow('\n── Staged Changes ──────────────────────'))
                 renderStagedChanges(stagingBuffer.getAll())
-                console.log(chalk.yellow('\n── Diff ────────────────────────────────'))
                 renderDiff(stagingBuffer.getDiff())
               } else {
-                console.log(chalk.gray('No staged changes'))
+                console.log(chalk.gray('  • No staged changes'))
               }
               continue
 
@@ -90,10 +91,10 @@ export const chatCommand = new Command('chat')
               if (stagingBuffer && stagingBuffer.size > 0) {
                 stagingBuffer.approve()
                 await stagingBuffer.apply()
-                console.log(chalk.green('✓ All changes applied'))
+                console.log(chalk.green('  ✔ All changes applied'))
                 stagingBuffer = null
               } else {
-                console.log(chalk.gray('No changes to approve'))
+                console.log(chalk.gray('  • No changes to approve'))
               }
               continue
 
@@ -101,30 +102,33 @@ export const chatCommand = new Command('chat')
               if (stagingBuffer && stagingBuffer.size > 0) {
                 stagingBuffer.clear()
                 stagingBuffer = null
-                console.log(chalk.red('✗ Changes discarded'))
+                console.log(chalk.red('  ✖ Changes discarded'))
               } else {
-                console.log(chalk.gray('No changes to reject'))
+                console.log(chalk.gray('  • No changes to reject'))
               }
               continue
 
             case '/clear':
               messages.length = 0
               console.clear()
-              console.log(chalk.green('✓ Chat history cleared'))
+              console.log(chalk.green('  ✔ Chat history cleared'))
               continue
 
             case '/help':
-              console.log(chalk.cyan('\nAvailable commands:'))
-              console.log(chalk.yellow('  /mode <mode>') + chalk.gray('   - Switch mode (agent, ask, plan, review)'))
-              console.log(chalk.yellow('  /diff') + chalk.gray('         - Show staged diff'))
-              console.log(chalk.yellow('  /approve') + chalk.gray('       - Approve staged changes'))
-              console.log(chalk.yellow('  /reject') + chalk.gray('        - Reject staged changes'))
-              console.log(chalk.yellow('  /clear') + chalk.gray('         - Clear chat history'))
-              console.log(chalk.yellow('  /exit') + chalk.gray('          - Exit chat'))
+              console.log('')
+              console.log(chalk.cyan('  ◆ ') + chalk.white.bold('Available Commands'))
+              console.log(chalk.gray('  │'))
+              console.log(chalk.gray('  ├─ ') + chalk.yellow('/mode <mode>') + chalk.gray('   - Switch mode (agent, ask, plan, review)'))
+              console.log(chalk.gray('  ├─ ') + chalk.yellow('/diff') + chalk.gray('         - Show staged diff'))
+              console.log(chalk.gray('  ├─ ') + chalk.yellow('/approve') + chalk.gray('       - Approve staged changes'))
+              console.log(chalk.gray('  ├─ ') + chalk.yellow('/reject') + chalk.gray('        - Reject staged changes'))
+              console.log(chalk.gray('  ├─ ') + chalk.yellow('/clear') + chalk.gray('         - Clear chat history'))
+              console.log(chalk.gray('  └─ ') + chalk.yellow('/exit') + chalk.gray('          - Exit chat'))
+              console.log('')
               continue
 
             default:
-              console.log(chalk.red(`Unknown command: ${command}. Type /help for commands.`))
+              console.log(chalk.red(`  ✖ Unknown command: ${command}. Type /help for commands.`))
               continue
           }
         }
@@ -133,7 +137,7 @@ export const chatCommand = new Command('chat')
         messages.push({ role: 'user', content: input })
 
         // Show thinking indicator
-        process.stdout.write(chalk.gray('\nNexusClaw: '))
+        process.stdout.write(chalk.gray('\n  NexusClaw: '))
 
         // Run agent
         let fullResponse = ''
@@ -150,7 +154,7 @@ export const chatCommand = new Command('chat')
           })
         } catch (err: unknown) {
           const errorMsg = err instanceof Error ? err.message : String(err)
-          console.log(chalk.red(`\nError: ${errorMsg}`))
+          console.log(chalk.red(`\n  ✖ Error: ${errorMsg}`))
           continue
         }
 
@@ -161,20 +165,23 @@ export const chatCommand = new Command('chat')
         const staging = agent.getStaging()
         if (staging.size > 0) {
           stagingBuffer = staging
-          console.log(chalk.yellow(`\n\n⚠ ${staging.size} change(s) staged. Type /diff to review, /approve to apply, /reject to discard.`))
+          console.log('')
+          console.log(chalk.yellow(`  ⚠ ${staging.size} change(s) staged. Type /diff to review, /approve to apply, /reject to discard.`))
         }
 
-        console.log() // Newline after response
+        console.log('') // Newline after response
 
       } catch (err: unknown) {
         if (err instanceof Error && err.message.includes('readline')) {
           // User pressed Ctrl+C
-          console.log(chalk.yellow('\n\nGoodbye! 👋\n'))
+          console.log('')
+          console.log(chalk.cyan('  ◆ ') + chalk.gray('Goodbye!'))
+          console.log('')
           rl.close()
           process.exit(0)
         }
         const errorMsg = err instanceof Error ? err.message : String(err)
-        console.log(chalk.red(`\nError: ${errorMsg}`))
+        console.log(chalk.red(`\n  ✖ Error: ${errorMsg}`))
       }
     }
   })
