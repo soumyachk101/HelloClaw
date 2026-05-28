@@ -1,11 +1,10 @@
-import { streamText, type CoreMessage, type Tool } from 'ai'
+import { streamText, type CoreMessage, type CoreTool } from 'ai'
 import { createOpenAI } from '@ai-sdk/openai'
 import { getConfig } from '@/config'
 import { StagingBuffer } from '@/agent/staging'
 import { coreTools } from '@/agent/tools'
 import { memoryRetriever } from '@/memory/retriever'
 import { usageTracker } from '@/tracker/usage'
-import { logger } from '@/utils/logger'
 
 export type AgentMode = 'agent' | 'ask' | 'plan' | 'review'
 
@@ -58,7 +57,7 @@ export class AgentCore {
 
     const systemPrompt = this.buildSystemPrompt(mode, memoryContext)
 
-    const tools: Record<string, Tool> = mode === 'ask'
+    const tools: Record<string, CoreTool> = mode === 'ask'
       ? { read_file: coreTools.read_file, list_directory: coreTools.list_directory, search_web: coreTools.search_web }
       : mode === 'plan'
         ? { read_file: coreTools.read_file, list_directory: coreTools.list_directory }
