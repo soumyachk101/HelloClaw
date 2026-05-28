@@ -29,9 +29,10 @@ export async function promptSelect<T extends string>(
   message: string,
   options: Array<{ value: T; label: string; hint?: string }>,
 ): Promise<T | null> {
-  const result = await select({ message, options })
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const result = await select({ message, options: options as any })
   if (isCancel(result)) return null
-  return result
+  return result as T
 }
 
 export function cancelAndExit(): never {

@@ -11,8 +11,10 @@ export interface MemoryEntry {
   created_at: string
 }
 
-let db: Awaited<ReturnType<typeof connect>> | null = null
-let table: Awaited<ReturnType<typeof db.openTable>> | null = null
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let db: any = null
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let table: any = null
 
 const DB_DIR = '.nexusclaw/memory'
 const TABLE_NAME = 'chunks'

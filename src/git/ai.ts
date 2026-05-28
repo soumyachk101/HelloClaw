@@ -21,7 +21,7 @@ export async function generateCommitMessage(workspaceRoot?: string): Promise<str
     throw new Error('No staged changes found. Stage files first with: git add .')
   }
 
-  const result = await streamText({
+  const result = streamText({
     model: openrouter(config.model),
     system: `You are a commit message generator. Write a concise, conventional commit message for the given diff.
 Use the format: type(scope): description
@@ -53,7 +53,7 @@ export async function generatePRDescription(workspaceRoot?: string): Promise<{ t
   const diff = await gitDiff(false, workspaceRoot)
   const log = await gitLog(20, workspaceRoot)
 
-  const result = await streamText({
+  const result = streamText({
     model: openrouter(config.model),
     system: `You are a PR description generator. Given a diff and recent commit history, generate a PR title and body.
 Respond in JSON format: {"title": "...", "body": "..."}
@@ -92,7 +92,7 @@ export async function generateChangelog(workspaceRoot?: string): Promise<string>
 
   const log = await gitLog(50, workspaceRoot)
 
-  const result = await streamText({
+  const result = streamText({
     model: openrouter(config.model),
     system: `You are a changelog generator. Given a list of commit messages, generate a CHANGELOG.md-style output.
 Group by type: Features, Bug Fixes, Refactoring, Documentation, etc.

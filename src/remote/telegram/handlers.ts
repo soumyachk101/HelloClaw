@@ -16,12 +16,12 @@ function isAllowedUser(ctx: Context): boolean {
   return userId ? allowedUsers.includes(userId) : false
 }
 
-function sendLongMessage(ctx: Context, text: string): Promise<unknown> {
+async function sendLongMessage(ctx: Context, text: string): Promise<void> {
   if (text.length <= 4000) {
-    return ctx.replyWithMarkdown(text)
+    await ctx.replyWithMarkdown(text)
+    return
   }
 
-  // Split into chunks
   const chunks: string[] = []
   let remaining = text
   while (remaining.length > 0) {
@@ -29,10 +29,9 @@ function sendLongMessage(ctx: Context, text: string): Promise<unknown> {
     remaining = remaining.slice(4000)
   }
 
-  return chunks.reduce((promise, chunk) =>
-    promise.then(() => ctx.replyWithMarkdown(chunk)),
-    Promise.resolve(),
-  )
+  for (const chunk of chunks) {
+    await ctx.replyWithMarkdown(chunk)
+  }
 }
 
 export function registerTelegramHandlers(bot: Telegraf): void {

@@ -29,7 +29,7 @@ export async function reviewFile(filePath: string, workspaceRoot?: string): Prom
     apiKey: config.openrouter_api_key,
   })
 
-  const result = await streamText({
+  const result = streamText({
     model: openrouter(config.model),
     system: `You are an expert code reviewer. Analyze the provided code for:
 - Bugs and logic errors
@@ -72,7 +72,7 @@ export async function reviewDiff(ref?: string, workspaceRoot?: string): Promise<
     apiKey: config.openrouter_api_key,
   })
 
-  const result = await streamText({
+  const result = streamText({
     model: openrouter(config.model),
     system: `You are an expert code reviewer. Review the provided diff for issues.
 Output format:
