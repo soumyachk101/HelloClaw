@@ -1385,3 +1385,17 @@ MIT License — see [LICENSE](LICENSE) for details.
 <p align="center">
   <strong>Built with ❤️ using Bun, TypeScript, and Vercel AI SDK</strong>
 </p>
+
+---
+
+## 🤝 Contributing & Collaboration
+
+I am always open to meaningful collaborations. If you have ideas for improvements, bug fixes, or new features, feel free to:
+1. **Fork** the repository.
+2. **Create** a new feature branch.
+3. **Submit** a pull request.
+
+Let's build something great together!
+
+---
+
